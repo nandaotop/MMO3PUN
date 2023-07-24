@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57db77b4250930327accb6cab1334449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectPanel: {fileID: 2123977268}
 --- !u!4 &369303579
 Transform:
   m_ObjectHideFlags: 0
@@ -486,7 +487,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 100
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -616,7 +617,7 @@ GameObject:
   - component: {fileID: 2123977271}
   - component: {fileID: 2123977270}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ConnectedPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
