@@ -26,6 +26,11 @@ public class AnimatorSync : MonoBehaviourPun
         anim.SetBool(StaticStrings.move, val);
     }
 
+    public void IsDead(bool val)
+    {
+        anim.SetBool(StaticStrings.dead, val);
+    }
+
     [PunRPC]
     public void SyncronizeAnimation(string animName)
     {

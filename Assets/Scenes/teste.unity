@@ -373,6 +373,7 @@ MonoBehaviour:
   moveSpeed: 3
   moveMultipler: 1
   isDeath: 0
+  hp: 3
   estate: 0
   direction: {x: 0, y: 0, z: 5}
   patrolDist: 1
@@ -577,6 +578,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: move
+  - Type: 4
+    SynchronizeType: 2
+    Name: dead
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -694,6 +698,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1323077083387387526, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1844747256689155660, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: sceneViewId
       value: 1

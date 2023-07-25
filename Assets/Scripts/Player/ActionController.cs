@@ -58,11 +58,25 @@ public class ActionController : MonoBehaviour
 
     void AutoAttack(float delta)
     {
+        if (enemyTarget == null && enemyTarget.isDeath)
+        {
+            autoMove = false;
+            enemyTarget = null;
+            return;    
+        }
+
         if (!attackTimer.timerActive(delta))
         {
             attackTimer.StartTimer(attackDelay);
             sync.PlayAnimation("Atk");
+            enemyTarget.TakeDamage(GetDamage());
         }
+    }
+
+    int GetDamage()
+    {
+        int val = 1;
+        return val;
     }
 
     void RightClick()

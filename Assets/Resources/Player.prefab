@@ -196,6 +196,7 @@ MonoBehaviour:
   moveSpeed: 3
   moveMultipler: 100
   isDeath: 0
+  hp: 10
   rotSpeed: 2
   scrollAmount: 10
   minZoom: 10
