@@ -17,4 +17,9 @@ public class AnimatorSync : MonoBehaviour
         anim.SetFloat("x", x);
         anim.SetFloat("y", y);
     }
+
+    public void SetMove(bool val)
+    {
+        anim.SetBool(StaticStrings.move, val);
+    }
 }
