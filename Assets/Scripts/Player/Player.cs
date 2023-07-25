@@ -22,6 +22,7 @@ public class Player : Entity
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
         follow = Instantiate(f, transform.position, transform.rotation);
         follow.Init(transform);
+        WorldManager.instance.playerList.Add(transform);
     }
 
     public override void Tick()
