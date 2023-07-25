@@ -16,6 +16,8 @@ public class Enemy : Entity
     [SerializeField]
     float patrolDist = 1;
     float wait = 2;
+    [SerializeField]
+    bool staticEnemy = false;
 
     public override void Init()
     {
@@ -29,6 +31,8 @@ public class Enemy : Entity
     public override void Tick()
     {
         delta = Time.deltaTime;
+        if (staticEnemy) return;
+
         switch (estate)
         {
             case EnemyState.idle:

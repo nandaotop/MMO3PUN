@@ -18,6 +18,7 @@ public class Player : Entity
         base.Init();
         if (!photonView.IsMine) return;
         controller = GetComponent<ActionController>();
+        controller.sync = sync;
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
         follow = Instantiate(f, transform.position, transform.rotation);
         follow.Init(transform);
@@ -35,7 +36,7 @@ public class Player : Entity
         move.y = rb.velocity.y;
         rb.velocity = move;
         sync.Move(x, y);
-        controller.Tick(follow.transform);
+        controller.Tick(follow.transform, x, y);
     }
 
     void UseCamera()
