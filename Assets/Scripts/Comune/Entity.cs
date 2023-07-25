@@ -10,10 +10,13 @@ public abstract class Entity : MonoBehaviourPun
     public float moveSpeed = 3;
     public float moveMultipler = 1;
     public bool isDeath;
+    public Stats stats = new Stats();
     [SerializeField]
-    int hp = 10; // TODO: utilizar float ao fim do curso
+    protected int hp = 10; // TODO: utilizar float ao fim do curso
+    public int maxHp;
 
     PhotonView view;
+    public System.Action OnDeathEvent;
 
     void Start()
     {
@@ -41,17 +44,20 @@ public abstract class Entity : MonoBehaviourPun
 
     public void TakeDamage(int dmg)
     {
-        if (PhotonNetwork.IsConnected)
+        if(dmg<=0)
+        {
+            dmg = 1;
+        }
+        if(!PhotonNetwork.IsConnected)
         {
             DebugDamage(dmg);
         }
         else
         {
-            if (view == null) view = PhotonView.Get(this);
-            view.RPC("DealDamage", RpcTarget.MasterClient, dmg);
+            if(view==null) view = PhotonView.Get(this);
+            view.RPC("DealDamage", RpcTarget.All, dmg);
         }
 
-        
     }
     
     public void DebugDamage(int dmg)
@@ -76,14 +82,20 @@ public abstract class Entity : MonoBehaviourPun
             hp = 0;
             isDeath = true;
             sync.IsDead(true);
+            if (OnDeathEvent != null)
+            {
+                OnDeathEvent.Invoke();
+            }
         }
 
-        view.RPC("SyncronizeStat", RpcTarget.All, hp);
+        view.RPC("SyncronizeStat", RpcTarget.All, hp, maxHp);
     }
 
     [PunRPC]
-    public void SyncronizeStat(int hp)
+    public void SyncronizeStat(int hp, int max)
     {
         this.hp = hp;
+        this.maxHp = max;
+        // UpdateUI(this.hp,max);
     }
 }

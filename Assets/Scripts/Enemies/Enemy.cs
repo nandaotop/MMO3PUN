@@ -18,6 +18,14 @@ public class Enemy : Entity
     float wait = 2;
     [SerializeField]
     bool staticEnemy = false;
+    public float respawnTime = 60;
+    [SerializeField]
+    float actionRadius = 5;
+    Player playerTarget;
+    [SerializeField]
+    float attackRange = 2;
+    [SerializeField]
+    float attackSpeed = 2;
 
     public override void Init()
     {
@@ -26,11 +34,16 @@ public class Enemy : Entity
         startPosition = transform.position;
         endPos = transform.position + direction;
         destination = endPos;
+        OnDeathEvent = () =>
+        {
+            Invoke("Respawn", respawnTime);
+        };
     }
 
     public override void Tick()
     {
         delta = Time.deltaTime;
+        FoundTarget();
         if (staticEnemy) return;
 
         switch (estate)
@@ -48,9 +61,51 @@ public class Enemy : Entity
 
     }
 
+    void FoundTarget()
+    {
+        if (estate == EnemyState.Combat) return;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, actionRadius);
+        foreach (var c in colliders)
+        {
+            if (c.tag == StaticStrings.player)
+            {
+                var p = c.GetComponent<Player>();
+                if (p != null)
+                {
+                    if (!p.isDeath)
+                    {
+                        playerTarget = p;
+                        estate = EnemyState.Combat;
+                    }
+                }
+            }
+        }
+    }
+    
     void Combat()
     {
-
+        if (playerTarget == null || playerTarget.isDeath)
+        {
+            estate = EnemyState.patrol;
+            playerTarget = null;
+            return;
+        }
+        var pos = playerTarget.transform.position;
+        float distance = Vector3.Distance(transform.position, pos);
+        if (distance > attackRange)
+        {
+            MoveAt(pos);
+        }
+        else 
+        {
+            if (!timer.timerActive(Time.deltaTime))
+            {
+                Debug.Log("atasss");
+                timer.StartTimer(attackSpeed);
+                sync.PlayAnimation("Atk");
+                playerTarget.TakeDamage(GetDamage());
+            }
+        }
     }
 
     void Patrol()
@@ -83,6 +138,7 @@ public class Enemy : Entity
         look.y = 0;
         Quaternion rot = Quaternion.LookRotation(look);
         transform.rotation = Quaternion.Slerp(transform.rotation, rot, wait * delta);
+        sync.SetMove(true);
     }
 
     void Idle()
@@ -99,5 +155,25 @@ public class Enemy : Entity
         idle,
         patrol,
         Combat
+    }
+
+    void Respawn()
+    {
+        Debug.Log("respawn");
+        hp = stats.HP;
+        isDeath = false;
+        sync.IsDead(false);
+        transform.position = startPosition;
+    }
+
+    private void OnDrawGizmos() 
+    {
+        Gizmos.DrawWireSphere(transform.position, actionRadius);
+    }
+
+    int GetDamage()
+    {
+        int val = 1;
+        return val;
     }
 }

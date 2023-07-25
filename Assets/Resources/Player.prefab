@@ -196,7 +196,18 @@ MonoBehaviour:
   moveSpeed: 3
   moveMultipler: 100
   isDeath: 0
+  stats:
+    Level: 1
+    HP: 1
+    PhysicalAttack: 1
+    MagicalAttack: 1
+    PhysicalDefense: 1
+    MagicalDefense: 1
+    Agility: 1
+    Aggro: 1
+    charClass: 0
   hp: 10
+  maxHp: 0
   rotSpeed: 2
   scrollAmount: 10
   minZoom: 10

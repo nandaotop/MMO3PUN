@@ -262,8 +262,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -373,11 +373,26 @@ MonoBehaviour:
   moveSpeed: 3
   moveMultipler: 1
   isDeath: 0
+  stats:
+    Level: 1
+    HP: 4
+    PhysicalAttack: 1
+    MagicalAttack: 1
+    PhysicalDefense: 1
+    MagicalDefense: 1
+    Agility: 1
+    Aggro: 1
+    charClass: 0
   hp: 3
+  maxHp: 0
   estate: 0
   direction: {x: 0, y: 0, z: 5}
   patrolDist: 1
-  staticEnemy: 1
+  staticEnemy: 0
+  respawnTime: 10
+  actionRadius: 4
+  attackRange: 2
+  attackSpeed: 2
 --- !u!114 &76554586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,7 +727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5078871736405997998, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6645918942132447065, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_RootOrder
@@ -761,6 +776,10 @@ PrefabInstance:
     - target: {fileID: 7698212084111917008, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: sceneViewId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8190202437448735085, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: hp
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
