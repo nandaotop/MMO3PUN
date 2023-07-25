@@ -194,6 +194,10 @@ MonoBehaviour:
   rb: {fileID: 0}
   moveSpeed: 3
   moveMultipler: 100
+  rotSpeed: 2
+  scrollAmount: 3
+  minZoom: 10
+  maxZoom: 120
 --- !u!1001 &6492510351991731655
 PrefabInstance:
   m_ObjectHideFlags: 0

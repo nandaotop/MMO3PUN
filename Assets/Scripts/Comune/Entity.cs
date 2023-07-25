@@ -9,6 +9,7 @@ public abstract class Entity : MonoBehaviourPun
     public Rigidbody rb;
     public float moveSpeed = 3;
     public float moveMultipler = 1;
+    public bool isDeath;
     void Start()
     {
         Init();
