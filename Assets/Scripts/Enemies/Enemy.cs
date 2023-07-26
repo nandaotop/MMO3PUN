@@ -26,6 +26,8 @@ public class Enemy : Entity
     float attackRange = 2;
     [SerializeField]
     float attackSpeed = 2;
+    [SerializeField]
+    float maxDistance = 15;
 
     public override void Init()
     {
@@ -92,6 +94,14 @@ public class Enemy : Entity
         }
         var pos = playerTarget.transform.position;
         float distance = Vector3.Distance(transform.position, pos);
+        
+        if (distance > maxDistance)
+        {
+            estate = EnemyState.patrol;
+            playerTarget = null;
+            return;
+        }
+        
         if (distance > attackRange)
         {
             MoveAt(pos);

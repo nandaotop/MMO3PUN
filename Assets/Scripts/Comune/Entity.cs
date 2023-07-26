@@ -15,7 +15,7 @@ public abstract class Entity : MonoBehaviourPun
     protected int hp = 10; // TODO: utilizar float ao fim do curso
     public int maxHp;
 
-    PhotonView view;
+    protected PhotonView view;
     public System.Action OnDeathEvent;
 
     void Start()
