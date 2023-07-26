@@ -19,6 +19,7 @@ public class Player : Entity
         if (!photonView.IsMine) return;
         controller = GetComponent<ActionController>();
         controller.sync = sync;
+        controller.Init();
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
         follow = Instantiate(f, transform.position, transform.rotation);
         follow.Init(transform);
@@ -66,8 +67,6 @@ public class Player : Entity
 
         return true;
     }
-
-
 
     public void Respawn()
     {

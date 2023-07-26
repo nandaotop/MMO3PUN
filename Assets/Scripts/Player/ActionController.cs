@@ -15,7 +15,18 @@ public class ActionController : MonoBehaviour
     Timer attackTimer = new Timer();
     [SerializeField]
     float attackDelay = 2;
+    public List<ActionClass> actions = new List<ActionClass>()
+    {
+        new ActionClass (){key = KeyCode.Z},new ActionClass (){key = KeyCode.X},new ActionClass (){key = KeyCode.C},
+        new ActionClass (){key = KeyCode.V},new ActionClass (){key = KeyCode.B},new ActionClass (){key = KeyCode.N},
+        new ActionClass (){key = KeyCode.Alpha1},new ActionClass (){key = KeyCode.Alpha2},new ActionClass (){key = KeyCode.Alpha3},
+        new ActionClass (){key = KeyCode.Alpha4}, new ActionClass (){key = KeyCode.Alpha5},new ActionClass (){key = KeyCode.Alpha6},
+    };
     public AnimatorSync sync {get; set;}
+    public void Init()
+    {
+        UIManager.instance.SetActions(this);
+    }
 
     public void Tick(Transform follow, float x, float y)
     {
@@ -95,4 +106,15 @@ public class ActionController : MonoBehaviour
             }
         }
     }
+
+    public void PressButton(KeyCode code)
+    {
+
+    }
+}
+
+[System.Serializable]
+public class ActionClass
+{
+    public KeyCode key;
 }

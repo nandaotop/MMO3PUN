@@ -54,6 +54,17 @@ public class UIManager : MonoBehaviour
         instance = this;    
     }
 
+    public void SetActions(ActionController controller)
+    {
+        for(int i=0; i < buttons.Count; i++)
+        {
+            if (i < controller.actions.Count)
+            {
+                buttons[i].SetUpButton(controller, controller.actions[i].key);
+            }
+        }
+    }
+
     void Start()
     {
         
