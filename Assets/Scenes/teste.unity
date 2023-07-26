@@ -9055,6 +9055,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 938352948835216051, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: c4f70bcb11943f2b588a8fd873c09291, type: 3}
+    - target: {fileID: 938352948835216051, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Hips_vC_green'\n\tTransform 'RightFoot_vC_green'\n\tTransform
+        'Spine2_vC_green'\n\tTransform 'Spine_vC_green'\n\tTransform 'LeftShoulder_vC_green'\n\tTransform
+        'RightHand_vC_green'\n\tTransform 'RightShoulder_vC_green'\n\tTransform 'Neck_vC_green'\n\tTransform
+        'RightLeg_vC_green'\n\tTransform 'RightToeBase_vC_green'\n\tand more ...\n\tFrom
+        animation clip 'run'\n\tFrom animation clip 'idle'\n\tFrom animation clip
+        'run'\n\tFrom animation clip 'run'\n\tFrom animation clip 'run'\n\tFrom animation
+        clip 'Attack'\n\tFrom animation clip 'Die'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002764942394940809, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_Height
+      value: 1.704339
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002764942394940809, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_Center.y
+      value: 0.3262
+      objectReference: {fileID: 0}
     - target: {fileID: 1323077083387387526, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
       value: 2
@@ -9063,6 +9087,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2346779372760460380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: actions.Array.data[0].skill
+      value: 
+      objectReference: {fileID: 11400000, guid: abdd92366388e0d8d9fb5d4c45635ed7, type: 2}
     - target: {fileID: 5078871736405997998, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_Name
       value: Player

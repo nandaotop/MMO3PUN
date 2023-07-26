@@ -39,6 +39,12 @@ public class AnimatorSync : MonoBehaviourPun
 
     public void PlayAnimation(string animName)
     {
+        if (anim == null)
+        {
+            Debug.LogError("Animator component is missing!");
+            return;
+        }
+        
         if (PhotonNetwork.IsConnected)
         {
             if (view == null) view = PhotonView.Get(this);
