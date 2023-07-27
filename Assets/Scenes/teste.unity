@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657832, g: 0.49641222, b: 0.57481664, a: 1}
+  m_IndirectSpecularColor: {r: 0.44658792, g: 0.49642283, b: 0.5748252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -647,7 +647,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &63926672
 GameObject:
@@ -5737,7 +5737,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1081922553
 GameObject:
@@ -9045,7 +9045,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2023167393
 PrefabInstance:
@@ -9055,53 +9055,53 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 938352948835216051, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: c4f70bcb11943f2b588a8fd873c09291, type: 3}
-    - target: {fileID: 938352948835216051, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Hips_vC_green'\n\tTransform 'RightFoot_vC_green'\n\tTransform
-        'Spine2_vC_green'\n\tTransform 'Spine_vC_green'\n\tTransform 'LeftShoulder_vC_green'\n\tTransform
-        'RightHand_vC_green'\n\tTransform 'RightShoulder_vC_green'\n\tTransform 'Neck_vC_green'\n\tTransform
-        'RightLeg_vC_green'\n\tTransform 'RightToeBase_vC_green'\n\tand more ...\n\tFrom
-        animation clip 'run'\n\tFrom animation clip 'idle'\n\tFrom animation clip
-        'run'\n\tFrom animation clip 'run'\n\tFrom animation clip 'run'\n\tFrom animation
-        clip 'Attack'\n\tFrom animation clip 'Die'"
+    - target: {fileID: 300910153601124055, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1002764942394940809, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: m_Height
-      value: 1.704339
-      objectReference: {fileID: 0}
-    - target: {fileID: 1002764942394940809, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: m_Center.y
-      value: 0.3262
-      objectReference: {fileID: 0}
-    - target: {fileID: 1323077083387387526, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: m_SynchronizeParameters.Array.data[2].SynchronizeType
+    - target: {fileID: 527774297409288116, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[0].SynchronizeType
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1844747256689155660, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+    - target: {fileID: 527774297409288116, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[1].SynchronizeType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 626206878398920990, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290976471141074040, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544657030685538778, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804948898613256011, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2346779372760460380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: actions.Array.data[0].skill
-      value: 
-      objectReference: {fileID: 11400000, guid: abdd92366388e0d8d9fb5d4c45635ed7, type: 2}
     - target: {fileID: 5078871736405997998, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5078871736405997998, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5976596802897466490, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6148458016734997040, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6645918942132447065, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6645918942132447065, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9143,14 +9143,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6879182465349623270, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7098377614927552509, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7698212084111917008, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8190202437448735085, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
-      propertyPath: hp
-      value: 3
+    - target: {fileID: 7944157561820825315, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8190202437448735085, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: sync
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8900482399359351435, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119326670234277072, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 2255221d850daf642981c1a4eedf85a1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

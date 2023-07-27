@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657832, g: 0.49641222, b: 0.57481664, a: 1}
+  m_IndirectSpecularColor: {r: 0.44658792, g: 0.49642283, b: 0.5748252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectPanel: {fileID: 2123977268}
   startButton: {fileID: 1376549119}
-  player: {fileID: 5078871736405997998, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+  player: {fileID: 626206878398920990, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
 --- !u!4 &369303579
 Transform:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
