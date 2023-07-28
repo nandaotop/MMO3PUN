@@ -14,11 +14,13 @@ public class Player : Entity
     ActionController controller;
     const float second = 1;
     float manaCounter = 1;
+    public SaveData data = new SaveData();
 
     public override void Init()
     {
         base.Init();
         if (!photonView.IsMine) return;
+        // to load data
         controller = GetComponent<ActionController>();
         controller.sync = sync;
         controller.Init(this);
@@ -35,6 +37,11 @@ public class Player : Entity
 
     public override void Tick()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SaveManager.SaveData(data.characterName, data);
+        }
+
         UseCamera();
         if (controller.mana < stats.Mana)
         {
