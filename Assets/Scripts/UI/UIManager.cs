@@ -85,4 +85,14 @@ public class UIManager : MonoBehaviour
         deathPanel.SetActive(false);
         player.Respawn();
     }
+
+    public void SpellBook()
+    {
+        spellBook.SetActive(true);
+    }
+
+    public void CloseBook()
+    {
+        spellBook.SetActive(false);
+    }
 }

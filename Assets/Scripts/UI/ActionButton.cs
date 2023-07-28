@@ -59,6 +59,23 @@ public class ActionButton : MonoBehaviour
         {
             onOffimage.enabled = true;
         }
+    }
 
+    public void SetSkill(Skill skill)
+    {
+        bool exists = false;
+        foreach (var a in controller.actions)
+        {
+            if (a.skill == skill)
+            {
+                exists = true;
+            }
+        }
+        if (exists) return;
+
+        action.skill = skill;
+        countDown = skill.countDown;
+        countdownImage.fillAmount = 0;
+        icon.sprite = skill.sprite;
     }
 }
