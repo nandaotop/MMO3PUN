@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+[CreateAssetMenu(fileName ="NewItem",menuName ="ScriptableObject/Item")]
+public class Item : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Sprite sprite;
+    public string description;
+    public int cost = 0;
+    public int dropRate = 75;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // [Header("Craft")]
+    // public List<Pair<Item, int>> reciepe = new List<Pair<Item, int>>();
+   
 }

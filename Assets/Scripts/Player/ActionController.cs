@@ -34,6 +34,7 @@ public class ActionController : MonoBehaviour
         mana = player.stats.Mana;
         BuildInventory();
         UIManager.instance.SetActions(this);
+        UIManager.instance.chat.SetUP(player.data.characterName);
     }
 
     public void Tick(Transform follow, float x, float y)

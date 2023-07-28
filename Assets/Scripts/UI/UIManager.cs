@@ -30,15 +30,15 @@ public class UIManager : MonoBehaviour
     // [SerializeField]
     Slider hpBar = null, manaBar = null;
     [SerializeField]
-    Text playerName = null, level = null;
+    Text level = null;
     //photo
     // [SerializeField]
     // PopUpBase popUpBase = null;
     GameObject currentPopUp;
     // [SerializeField]
     // BuffSlot buffSlot = null;
-    [SerializeField]
-    Transform grid = null;
+    // [SerializeField]
+    // Transform grid = null;
     // [SerializeField]
     // TalentBook talentBook = null;
     [SerializeField]
@@ -65,16 +65,14 @@ public class UIManager : MonoBehaviour
                 controller.actions[i].button = buttons[i];
             }
         }
-    }
-
-    void Start()
-    {
-        
+        initialized = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!initialized) return;
+
         foreach (var item in buttons)
         {
             item.FadeCheck();

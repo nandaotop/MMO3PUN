@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equip : MonoBehaviour
+[CreateAssetMenu(fileName = "NewItem", menuName = "ScriptableObject/Equip")]
+public class Equip : Item
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // public EquipType type = EquipType.head;
+    // public Rarety rarety=Rarety.comune;
+    // public int stamina, strenght, intellect, agility;
+    // public int armor;
+    // public GameObject model;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // public Vector3 leftPos, rightPos;
+    // public Vector3 leftRot, rightRot;
 }
+
+// public enum Rarety
+// {
+//     comune,
+//     good,
+//     rare,
+//     epic,
+//     legendary
+// }
+// public enum EquipType
+// {
+//     head, body, leg, shoes, belt, shoulder, weapon
+// }

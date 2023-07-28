@@ -21,6 +21,8 @@ public class Player : Entity
         base.Init();
         if (!photonView.IsMine) return;
 
+        data = CharacterCreate.selectedData;
+
         data = SaveManager.LoadData<SaveData>(data.characterName);
         if (data == null)
         {
@@ -43,15 +45,15 @@ public class Player : Entity
 
     public override void Tick()
     {
-        // if (Input.GetKeyDown(KeyCode.P))
-        // {
-        //     SaveManager.SaveData(data.characterName, data);
-        // }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SaveManager.SaveData(data.characterName, data);
+        }
 
-        // if (Input.GetKeyDown(KeyCode.L))
-        // {
-        //     data = SaveManager.LoadData<SaveData>(data.characterName);
-        // }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            data = SaveManager.LoadData<SaveData>(data.characterName);
+        }
 
         UseCamera();
         if (controller.mana < stats.Mana)

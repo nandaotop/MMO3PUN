@@ -573,6 +573,8 @@ MonoBehaviour:
   stats:
     Level: 1
     HP: 1
+    Mana: 1
+    ManaXsecond: 5
     PhysicalAttack: 1
     MagicalAttack: 1
     PhysicalDefense: 1
@@ -586,6 +588,31 @@ MonoBehaviour:
   scrollAmount: 10
   minZoom: 10
   maxZoom: 120
+  data:
+    characterName: 
+    stat:
+      Level: 1
+      HP: 1
+      Mana: 1
+      ManaXsecond: 5
+      PhysicalAttack: 1
+      MagicalAttack: 1
+      PhysicalDefense: 1
+      MagicalDefense: 1
+      Agility: 1
+      Aggro: 1
+      charClass: 0
+    skills: []
+    equip: []
+    items: []
+    LevelName: Level1
+    currentScene: 1
+    x: 0
+    y: 0
+    z: 0
+    experience: 0
+    talentPoint: 0
+    coin: 0
 --- !u!114 &8511311995311125380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,28 +632,51 @@ MonoBehaviour:
   actions:
   - key: 122
     skill: {fileID: 11400000, guid: abdd92366388e0d8d9fb5d4c45635ed7, type: 2}
+    button: {fileID: 0}
   - key: 120
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 99
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 118
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 98
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 110
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 49
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 50
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 51
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 52
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 53
     skill: {fileID: 0}
+    button: {fileID: 0}
   - key: 54
     skill: {fileID: 0}
+    button: {fileID: 0}
+  mana: 0
+  inventory:
+    playerSKills: []
+    head: {fileID: 0}
+    body: {fileID: 0}
+    leg: {fileID: 0}
+    shoes: {fileID: 0}
+    belt: {fileID: 0}
+    shoulder: {fileID: 0}
+    leftWeapon: {fileID: 0}
+    rightWeapon: {fileID: 0}
 --- !u!1 &668687205271081968
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class CharacterCreate : MonoBehaviour
     CharButton charButton = null;
     [SerializeField]
     Transform charParent = null;
-    SaveData selectedData;
+    public static SaveData selectedData;
     public List<CharButton> buttons = new List<CharButton>();
     [SerializeField]
     CharacterStatsUI stats = null;
