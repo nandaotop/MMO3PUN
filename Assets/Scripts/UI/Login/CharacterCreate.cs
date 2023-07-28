@@ -14,6 +14,8 @@ public class CharacterCreate : MonoBehaviour
     Transform charParent = null;
     SaveData selectedData;
     public List<CharButton> buttons = new List<CharButton>();
+    [SerializeField]
+    CharacterStatsUI stats = null;
 
     void Start()
     {
@@ -36,7 +38,7 @@ public class CharacterCreate : MonoBehaviour
                 id ++;
                 buttons.Add(button);
             }
-            buttons[0].icon.SetActive(true);
+            Select(0);
         }
     }
 
@@ -46,8 +48,9 @@ public class CharacterCreate : MonoBehaviour
         {
             b.icon.SetActive(false);
         }
-        Debug.Log("SELECT");
+        
         selectedData = allData[ID];
         buttons[ID].icon.SetActive(true);
+        stats.SetUp(selectedData);
     }
 }
