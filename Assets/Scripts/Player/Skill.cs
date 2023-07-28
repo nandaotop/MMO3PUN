@@ -7,12 +7,13 @@ public class Skill : ScriptableObject
 {
     public AnimName animName = AnimName.atk;
     // public AnimName animName=AnimName.SpellCast;
-    // public Sprite sprite;
+    public Sprite sprite;
     // public int requireLevel = 3;
-    // public int cost = 2;
+    public int cost = 2;
     // public string desctiption = "";
-    // public float countDown = 3;
-    // public float activationTime = 5;
+    public float countDown = 3;
+    public float activationTime = 5;
+    public float counter;
     // public float skillRange = 15;
     // public SpellTarget spellTarget=SpellTarget.enemy;
     // public int spellPower = 1;

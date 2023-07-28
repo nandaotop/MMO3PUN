@@ -7,6 +7,8 @@ public class Stats
 {
     public int Level = 1;
     public int HP = 1; // TODO: mudar para float
+    public int Mana = 1;
+    public int ManaXsecond = 5;
     public float PhysicalAttack = 1;
     public float MagicalAttack = 1;
     public float PhysicalDefense = 1;

@@ -24,9 +24,13 @@ public class ActionController : MonoBehaviour
     };
     public AnimatorSync sync {get; set;}
     bool inAction = false;
+    Player player;
+    public int mana = 0;
 
-    public void Init()
+    public void Init(Player player)
     {
+        this.player = player;
+        mana = player.stats.Mana;
         UIManager.instance.SetActions(this);
     }
 
@@ -71,7 +75,7 @@ public class ActionController : MonoBehaviour
         {
             if (Input.GetKeyDown(item.key))
             {
-                PressButton(item.key, item);
+                PressButton(item);
                 break;
             }
         }
@@ -117,30 +121,16 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    public void PressButton(KeyCode code, ActionClass action = null)
+    public void PressButton(ActionClass action = null)
     {
-        ActionClass current = action;
-        if (current == null)
-        {
-            current = GetAction(code);
-        }
-        Skill skill = current.skill;
+        Skill skill = action.skill;
         if (skill == null) return;
-        inAction = true;
-        sync.PlayAnimation(skill.animName.ToString());
-    }
-
-    ActionClass GetAction(KeyCode code)
-    {
-        foreach (var item in actions)
+        if (skill.cost <= mana)
         {
-            if (item.key == code)
-            {
-                return item;
-            }
+            mana -= skill.cost;
+            inAction = true;
+            sync.PlayAnimation(skill.animName.ToString());
         }
-
-        return null;
     }
 }
 

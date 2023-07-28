@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
         {
             if (i < controller.actions.Count)
             {
-                buttons[i].SetUpButton(controller, controller.actions[i].key);
+                buttons[i].SetUpButton(controller, controller.actions[i]);
             }
         }
     }
@@ -73,7 +73,10 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        foreach (var item in buttons)
+        {
+            item.ManaCheck();
+        }
     }
 
     public void Respawn()
