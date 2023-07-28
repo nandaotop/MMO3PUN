@@ -16,9 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject spellBook = null;
     [SerializeField]
-    // SkillSlot skillPrefab = null;
+    SkillSlot skillPrefab = null;
     // [SerializeField]
-    Transform content = null;
+    public Transform content = null;
     List<GameObject> toDeleteSkills = new List<GameObject>();
     ActionController controller;
     bool initialized = false;
@@ -56,6 +56,7 @@ public class UIManager : MonoBehaviour
 
     public void SetActions(ActionController controller)
     {
+        this.controller = controller;
         for(int i=0; i < buttons.Count; i++)
         {
             if (i < controller.actions.Count)
@@ -89,10 +90,22 @@ public class UIManager : MonoBehaviour
     public void SpellBook()
     {
         spellBook.SetActive(true);
+        List<Skill> allSkills = controller.inventory.playerSKills;
+        foreach (var s in allSkills)
+        {
+            SkillSlot slot = Instantiate(skillPrefab, content);
+            slot.Init(s);
+            toDeleteSkills.Add(slot.gameObject);
+        }
     }
 
     public void CloseBook()
     {
+        foreach (var item in toDeleteSkills)
+        {
+            Destroy(item);
+        }
+        toDeleteSkills.Clear();
         spellBook.SetActive(false);
     }
 }

@@ -26,11 +26,13 @@ public class ActionController : MonoBehaviour
     bool inAction = false;
     Player player;
     public int mana = 0;
+    public Inventory inventory = new Inventory();
 
     public void Init(Player player)
     {
         this.player = player;
         mana = player.stats.Mana;
+        BuildInventory();
         UIManager.instance.SetActions(this);
     }
 
@@ -79,6 +81,11 @@ public class ActionController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void BuildInventory()
+    {
+        inventory.Init();
     }
 
     void AutoAttack(float delta)

@@ -7,7 +7,6 @@ public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler
 {
     [SerializeField]
     RectTransform icon = null;
-    Vector3 startPos;
     [SerializeField]
     Skill skill = null;
     [SerializeField]
@@ -32,15 +31,13 @@ public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler
                 break;
             }
         }
-        icon.position = startPos;
+        icon.localPosition = Vector3.zero;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init(Skill skill)
     {
-        startPos = icon.transform.position;
-        if (skill != null)
-            icon.GetComponent<UnityEngine.UI.Image>().sprite = skill.sprite;
+        this.skill = skill;
+        icon.GetComponent<UnityEngine.UI.Image>().sprite = skill.sprite;
     }
 
     // Update is called once per frame
