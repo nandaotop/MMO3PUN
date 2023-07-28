@@ -125,11 +125,15 @@ public class ActionController : MonoBehaviour
     {
         Skill skill = action.skill;
         if (skill == null) return;
+
+        if (action.button.Charging()) return;
+
         if (skill.cost <= mana)
         {
             mana -= skill.cost;
             inAction = true;
             sync.PlayAnimation(skill.animName.ToString());
+            action.button.SetCountDown();
         }
     }
 }
@@ -139,4 +143,5 @@ public class ActionClass
 {
     public KeyCode key;
     public Skill skill;
+    public ActionButton button;
 }

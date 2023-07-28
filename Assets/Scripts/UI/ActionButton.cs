@@ -13,6 +13,11 @@ public class ActionButton : MonoBehaviour
     Text buttontext = null;
     ActionClass action;
     ActionController controller;
+    float countDown = 1;
+    public bool Charging()
+    {
+        return (countdownImage.fillAmount > 0);
+    }
 
     public void SetUpButton(ActionController controller, ActionClass action)
     {
@@ -23,6 +28,7 @@ public class ActionButton : MonoBehaviour
         if (skill != null)
         {
             icon.sprite = skill.sprite;
+            countDown = skill.countDown;
         }
     }
 
@@ -31,9 +37,20 @@ public class ActionButton : MonoBehaviour
         controller.PressButton(action);
     }
 
-    public void ManaCheck()
+    public void SetCountDown()
+    {
+        countdownImage.fillAmount = 1;
+    }
+
+    public void FadeCheck()
     {
         if (action.skill == null) return;
+        
+        if (countdownImage.fillAmount > 0)
+        {
+            countdownImage.fillAmount -= 1 / countDown * Time.deltaTime;
+        }
+
         if (action.skill.cost <= controller.mana)
         {
             onOffimage.enabled = false;
