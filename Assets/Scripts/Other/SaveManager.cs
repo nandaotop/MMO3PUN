@@ -29,25 +29,23 @@ public static class SaveManager
     public static T LoadData<T>(string fileName)where T: class
     {
         T load = null;
+        string read = "";
+        string path = Path.Combine(location, fileName);
+        if(!File.Exists(path))
+        {
+            return null;
+        }
+
+        using (FileStream stream=new FileStream(path,FileMode.Open))
+        {
+            using(StreamReader reader=new StreamReader(stream))
+            {
+                read = reader.ReadToEnd();
+            }
+            stream.Close();
+        }
+        load = JsonUtility.FromJson<T>(read);
+
         return load;
-
-        // string read = "";
-        // string path = Path.Combine(location, fileName);
-        // if(!File.Exists(path))
-        // {
-        //     return null;
-        // }
-
-        // using (FileStream stream=new FileStream(path,FileMode.Open))
-        // {
-        //     using(StreamReader reader=new StreamReader(stream))
-        //     {
-        //         read = reader.ReadToEnd();
-        //     }
-        //     stream.Close();
-        // }
-        // load = JsonUtility.FromJson<T>(read);
-
-        // return load;
     }
 }

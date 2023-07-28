@@ -20,7 +20,13 @@ public class Player : Entity
     {
         base.Init();
         if (!photonView.IsMine) return;
-        // to load data
+
+        data = SaveManager.LoadData<SaveData>(data.characterName);
+        if (data == null)
+        {
+            data = new SaveData();
+        }
+
         controller = GetComponent<ActionController>();
         controller.sync = sync;
         controller.Init(this);
@@ -37,10 +43,15 @@ public class Player : Entity
 
     public override void Tick()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SaveManager.SaveData(data.characterName, data);
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     SaveManager.SaveData(data.characterName, data);
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.L))
+        // {
+        //     data = SaveManager.LoadData<SaveData>(data.characterName);
+        // }
 
         UseCamera();
         if (controller.mana < stats.Mana)

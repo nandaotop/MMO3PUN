@@ -10750,11 +10750,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: data.stat.HP
+      value: 1010
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.Mana
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.Aggro
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.Level
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.Agility
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: data.characterName
       value: Pipo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.ManaXsecond
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.MagicalAttack
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.MagicalDefense
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.PhysicalAttack
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183242091147762564, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: data.stat.PhysicalDefense
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2804948898613256011, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: sceneViewId
