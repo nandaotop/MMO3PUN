@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class CharacterStatsUI : MonoBehaviour
 {
-    [SerializeField]
-    Text Name = null, Hp = null, Lv = null;
+    public Text Name = null, Hp = null, Lv = null;
     [SerializeField]
     Text Atk = null, Def = null, Mana = null, Class = null;
     [SerializeField]
@@ -15,15 +14,8 @@ public class CharacterStatsUI : MonoBehaviour
     public void SetUp(SaveData data)
     {
         Stats stat = data.stat;
-        
         Name.text = "Name: " + data.characterName;
-        Hp.text = "Hp: " + stat.HP();
-        Lv.text = "Lv: " + stat.Level;
-        Atk.text = "Atk: " + stat.PhysicalAttack;
-        Def.text = "Def: " + stat.PhysicalDefense;
-        Mana.text = "Mana: " + stat.Mana();
-        Class.text = "Class: " + stat.charClass.ToString();
-
+        SetUp(stat);
         foreach (var i in slots)
         {
             i.transform.GetChild(0).GetComponent<Image>().enabled = false;
@@ -38,6 +30,18 @@ public class CharacterStatsUI : MonoBehaviour
                     SetEquip(e.sprite, i);
             }
         }
+    }
+
+    public void SetUp(Stats stat)
+    {
+        
+        Hp.text = "Hp: " + stat.HP;
+        Lv.text = "Lv: " + stat.Level;
+        Atk.text = "Atk: " + stat.PhysicalAttack;
+        Def.text = "Def: " + stat.PhysicalDefense;
+        Mana.text = "Mana: " + stat.Mana;
+        Class.text = "Class: " + stat.charClass.ToString();
+
     }
 
     void SetEquip(Sprite s, int index)

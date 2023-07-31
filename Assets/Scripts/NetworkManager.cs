@@ -52,12 +52,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        create.CreateSampleCharacter();
-
         foreach (var o in disableOnStart)
         {
             o.SetActive(false);
         }
+        SaveManager.SaveData(CharacterCreate.selectedData.characterName, CharacterCreate.selectedData);
         PhotonNetwork.LoadLevel(currentLevel);
         fadescreen.Play("FadeOut");
         RoomOptions options = new RoomOptions();

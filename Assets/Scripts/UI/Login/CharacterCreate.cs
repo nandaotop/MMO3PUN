@@ -27,14 +27,22 @@ public class CharacterCreate : MonoBehaviour
     GameObject startButton = null, createButton = null;
     [SerializeField]
     CharacterClass currentClass = CharacterClass.warrior;
+    [SerializeField]
+    int MaxPlayers = 5;
+    string[] files;
 
     void Start()
     {
-        var files = Directory.GetFiles(location).Where(x => !x.Contains(".meta")).ToArray();
+        selectedData = null;
+        files = Directory.GetFiles(location).Where(x => !x.Contains(".meta")).ToArray();
         dropDown.onValueChanged.AddListener(SelectCharacter);
         if (files.Length < 1)
         {
             startButton.SetActive(false);
+            selectedData = new SaveData();
+            selectedData.stat = GetStat(CharacterClass.warrior);
+            selectedData.characterName = "Guest";
+             
         }
         else 
         {
@@ -51,6 +59,11 @@ public class CharacterCreate : MonoBehaviour
                 buttons.Add(button);
             }
             Select(0);
+        }
+
+        if (files.Length >= MaxPlayers)
+        {
+            createButton.SetActive(false);
         }
     }
 
@@ -71,19 +84,20 @@ public class CharacterCreate : MonoBehaviour
         createButton.SetActive(false);
         createCharacterPanel.SetActive(true);
         startButton.SetActive(true);
+        stats.SetUp(selectedData);
     }
 
-    public void CreateSampleCharacter()
-    {
-        if (selectedData == null)
-        {
-            selectedData = new SaveData();
-            string Name = string.IsNullOrEmpty(field.text) ? "Guest00" : field.text;
-            selectedData.characterName = Name;
-            selectedData.stat = GetStat(currentClass);
-            SaveManager.SaveData<SaveData>(Name, selectedData);
-        }
-    }
+    // public void CreateSampleCharacter()
+    // {
+    //     if (selectedData == null)
+    //     {
+    //         selectedData = new SaveData();
+    //         string Name = string.IsNullOrEmpty(field.text) ? "Guest00" : field.text;
+    //         selectedData.characterName = Name;
+    //         selectedData.stat = GetStat(currentClass);
+    //         SaveManager.SaveData<SaveData>(Name, selectedData);
+    //     }
+    // }
 
     Stats GetStat(CharacterClass cla)
     {
@@ -91,23 +105,131 @@ public class CharacterCreate : MonoBehaviour
         switch (cla)
         {
             case CharacterClass.warrior:
+                newStat.Level = 1;
+                newStat.HP = 10;
+                newStat.Mana = 5;
+                newStat.PhysicalAttack = 15;
+                newStat.Wisdom = 5;
+                newStat.MagicalAttack = 5;
+                newStat.PhysicalDefense = 10;
+                newStat.MagicalDefense = 5;
+                newStat.Agility = 5;
+                newStat.Aggro = 10;
+                newStat.charClass = CharacterClass.warrior;
                 break;
+
             case CharacterClass.knight:
+                newStat.Level = 1;
+                newStat.HP = 10;
+                newStat.Mana = 5;
+                newStat.PhysicalAttack = 10;
+                newStat.Wisdom = 5;
+                newStat.MagicalAttack = 5;
+                newStat.PhysicalDefense = 15;
+                newStat.MagicalDefense = 10;
+                newStat.Agility = 5;
+                newStat.Aggro = 10;
+                newStat.charClass = CharacterClass.knight;
                 break;
+
             case CharacterClass.mercenary:
+                newStat.Level = 1;
+                newStat.HP = 15;
+                newStat.Mana = 5;
+                newStat.PhysicalAttack = 20;
+                newStat.Wisdom = 5;
+                newStat.MagicalAttack = 5;
+                newStat.PhysicalDefense = 10;
+                newStat.MagicalDefense = 5;
+                newStat.Agility = 5;
+                newStat.Aggro = 10;
+                newStat.charClass = CharacterClass.mercenary;
                 break;
+
             case CharacterClass.magician:
+                newStat.Level = 1;
+                newStat.HP = 5;
+                newStat.Mana = 15;
+                newStat.PhysicalAttack = 5;
+                newStat.Wisdom = 10;
+                newStat.MagicalAttack = 15;
+                newStat.PhysicalDefense = 5;
+                newStat.MagicalDefense = 10;
+                newStat.Agility = 5;
+                newStat.Aggro = 5;
+                newStat.charClass = CharacterClass.magician;
                 break;
+
             case CharacterClass.priest:
+                newStat.Level = 1;
+                newStat.HP = 10;
+                newStat.Mana = 15;
+                newStat.PhysicalAttack = 5;
+                newStat.Wisdom = 15;
+                newStat.MagicalAttack = 10;
+                newStat.PhysicalDefense = 5;
+                newStat.MagicalDefense = 10;
+                newStat.Agility = 5;
+                newStat.Aggro = 5;
+                newStat.charClass = CharacterClass.priest;
                 break;
+
             case CharacterClass.assassin:
+                newStat.Level = 1;
+                newStat.HP = 10;
+                newStat.Mana = 5;
+                newStat.PhysicalAttack = 20;
+                newStat.Wisdom = 5;
+                newStat.MagicalAttack = 10;
+                newStat.PhysicalDefense = 10;
+                newStat.MagicalDefense = 5;
+                newStat.Agility = 15;
+                newStat.Aggro = 5;
+                newStat.charClass = CharacterClass.assassin;
                 break;
+
             case CharacterClass.hunter:
+                newStat.Level = 1;
+                newStat.HP = 10;
+                newStat.Mana = 5;
+                newStat.PhysicalAttack = 15;
+                newStat.Wisdom = 5;
+                newStat.MagicalAttack = 10;
+                newStat.PhysicalDefense = 10;
+                newStat.MagicalDefense = 5;
+                newStat.Agility = 15;
+                newStat.Aggro = 5;
+                newStat.charClass = CharacterClass.hunter;
                 break;
+
             case CharacterClass.warlock:
+                newStat.Level = 1;
+                newStat.HP = 5;
+                newStat.Mana = 15;
+                newStat.PhysicalAttack = 5;
+                newStat.Wisdom = 15;
+                newStat.MagicalAttack = 20;
+                newStat.PhysicalDefense = 5;
+                newStat.MagicalDefense = 10;
+                newStat.Agility = 5;
+                newStat.Aggro = 5;
+                newStat.charClass = CharacterClass.warlock;
                 break;
+
             case CharacterClass.sage:
+                newStat.Level = 1;
+                newStat.HP = 5;
+                newStat.Mana = 20;
+                newStat.PhysicalAttack = 5;
+                newStat.Wisdom = 20;
+                newStat.MagicalAttack = 15;
+                newStat.PhysicalDefense = 5;
+                newStat.MagicalDefense = 15;
+                newStat.Agility = 5;
+                newStat.Aggro = 5;
+                newStat.charClass = CharacterClass.sage;
                 break;
+
         }
 
         return newStat;
@@ -116,5 +238,32 @@ public class CharacterCreate : MonoBehaviour
     public void SelectCharacter(int val)
     {
         currentClass = (CharacterClass) val;
+        Stats stat = GetStat(currentClass);
+        stats.SetUp(stat);
+        string name = field.text;
+        stats.Name.text = "Name: " + name;
+        selectedData.stat = stat;
+        if (string.IsNullOrEmpty(name))
+        {
+            name = "Guest";
+        }
+        selectedData.characterName = name;
+    }
+
+    public void DeleteCharacter(int id)
+    {
+        var popup = Resources.Load<PopUpBase>("UI/PopUpBase");
+        PopUpBase b = Instantiate(popup, transform.parent);
+        b.transform.SetAsLastSibling();
+        string title = "Delete this char?";
+        b.Init(title, () => {DeleteData(id,b.gameObject);}, () => {Destroy(b.gameObject);});
+    }
+
+    void DeleteData(int id, GameObject popup)
+    {
+        Destroy(buttons[id].gameObject);
+        Destroy(popup);
+        File.Delete(files[id]);
+        createButton.SetActive(true);
     }
 }

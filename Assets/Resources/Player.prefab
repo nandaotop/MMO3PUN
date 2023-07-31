@@ -572,7 +572,8 @@ MonoBehaviour:
   isDeath: 0
   stats:
     Level: 1
-    ManaXsecond: 5
+    HP: 1
+    Mana: 1
     PhysicalAttack: 1
     Wisdom: 1
     MagicalAttack: 1
@@ -591,7 +592,8 @@ MonoBehaviour:
     characterName: 
     stat:
       Level: 1
-      ManaXsecond: 5
+      HP: 1
+      Mana: 1
       PhysicalAttack: 1
       Wisdom: 1
       MagicalAttack: 1

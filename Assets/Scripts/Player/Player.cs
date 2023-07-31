@@ -56,14 +56,14 @@ public class Player : Entity
         }
 
         UseCamera();
-        if (controller.mana < stats.Mana())
+        if (controller.mana < stats.Mana)
         {
             manaCounter -= Time.deltaTime;
             if (manaCounter <= 0)
             {
                 manaCounter = second;
-                controller.mana += stats.ManaXsecond;
-                if (controller.mana > stats.Mana()) controller.mana = stats.Mana();
+                controller.mana += stats.ManaXsecond();
+                if (controller.mana > stats.Mana) controller.mana = stats.Mana;
             }
         }
 
@@ -105,7 +105,7 @@ public class Player : Entity
     {
         transform.position = WorldManager.instance.respawnPoint.position;
         isDeath = false;
-        hp = stats.HP();
+        hp = stats.HP;
         sync.IsDead(false);
         if (Photon.Pun.PhotonNetwork.IsConnected)
         {
