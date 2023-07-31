@@ -6,10 +6,18 @@ using UnityEngine;
 public class Stats 
 {
     public int Level = 1;
-    public int HP = 1; // TODO: mudar para float
-    public int Mana = 1;
+    public int HP()
+    {
+        return Level * 3;
+    }
+    int ManaMultiplier = 2;
+    public int Mana()
+    {
+        return Level * 2;
+    }
     public int ManaXsecond = 5;
     public float PhysicalAttack = 1;
+    public float Wisdom = 1;
     public float MagicalAttack = 1;
     public float PhysicalDefense = 1;
     public float MagicalDefense = 1;

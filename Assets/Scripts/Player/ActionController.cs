@@ -31,7 +31,7 @@ public class ActionController : MonoBehaviour
     public void Init(Player player)
     {
         this.player = player;
-        mana = player.stats.Mana;
+        mana = player.stats.Mana();
         BuildInventory();
         UIManager.instance.SetActions(this);
         UIManager.instance.chat.SetUP(player.data.characterName);

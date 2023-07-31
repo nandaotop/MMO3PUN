@@ -170,7 +170,7 @@ public class Enemy : Entity
     void Respawn()
     {
         Debug.Log("respawn");
-        hp = stats.HP;
+        hp = stats.HP();
         isDeath = false;
         sync.IsDead(false);
         transform.position = startPosition;

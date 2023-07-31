@@ -17,11 +17,11 @@ public class CharacterStatsUI : MonoBehaviour
         Stats stat = data.stat;
         
         Name.text = "Name: " + data.characterName;
-        Hp.text = "Hp: " + stat.HP;
+        Hp.text = "Hp: " + stat.HP();
         Lv.text = "Lv: " + stat.Level;
         Atk.text = "Atk: " + stat.PhysicalAttack;
         Def.text = "Def: " + stat.PhysicalDefense;
-        Mana.text = "Mana: " + stat.Mana;
+        Mana.text = "Mana: " + stat.Mana();
         Class.text = "Class: " + stat.charClass.ToString();
 
         foreach (var i in slots)

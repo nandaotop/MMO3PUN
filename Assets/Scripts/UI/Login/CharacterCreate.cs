@@ -25,10 +25,13 @@ public class CharacterCreate : MonoBehaviour
     Dropdown dropDown = null;
     [SerializeField]
     GameObject startButton = null, createButton = null;
+    [SerializeField]
+    CharacterClass currentClass = CharacterClass.warrior;
 
     void Start()
     {
         var files = Directory.GetFiles(location).Where(x => !x.Contains(".meta")).ToArray();
+        dropDown.onValueChanged.AddListener(SelectCharacter);
         if (files.Length < 1)
         {
             startButton.SetActive(false);
@@ -77,8 +80,7 @@ public class CharacterCreate : MonoBehaviour
             selectedData = new SaveData();
             string Name = string.IsNullOrEmpty(field.text) ? "Guest00" : field.text;
             selectedData.characterName = Name;
-            CharacterClass cl = CharacterClass.warrior;
-            selectedData.stat = GetStat(cl);
+            selectedData.stat = GetStat(currentClass);
             SaveManager.SaveData<SaveData>(Name, selectedData);
         }
     }
@@ -109,5 +111,10 @@ public class CharacterCreate : MonoBehaviour
         }
 
         return newStat;
+    }
+
+    public void SelectCharacter(int val)
+    {
+        currentClass = (CharacterClass) val;
     }
 }
