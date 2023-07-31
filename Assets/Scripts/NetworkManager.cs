@@ -19,6 +19,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     GameObject[] disableOnStart = null;
     [SerializeField]
     Animator fadescreen = null;
+    [SerializeField]
+    CharacterCreate create = null;
 
     private void Awake() {
         if (instance != null)
@@ -50,6 +52,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        create.CreateSampleCharacter();
+
         foreach (var o in disableOnStart)
         {
             o.SetActive(false);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using System.Linq;
 
@@ -16,13 +17,21 @@ public class CharacterCreate : MonoBehaviour
     public List<CharButton> buttons = new List<CharButton>();
     [SerializeField]
     CharacterStatsUI stats = null;
+    [SerializeField]
+    GameObject createCharacterPanel = null;
+    [SerializeField]
+    InputField field = null;
+    [SerializeField]
+    Dropdown dropDown = null;
+    [SerializeField]
+    GameObject startButton = null, createButton = null;
 
     void Start()
     {
         var files = Directory.GetFiles(location).Where(x => !x.Contains(".meta")).ToArray();
         if (files.Length < 1)
         {
-
+            startButton.SetActive(false);
         }
         else 
         {
@@ -52,5 +61,53 @@ public class CharacterCreate : MonoBehaviour
         selectedData = allData[ID];
         buttons[ID].icon.SetActive(true);
         stats.SetUp(selectedData);
+    }
+
+    public void CreateCharacter()
+    {
+        createButton.SetActive(false);
+        createCharacterPanel.SetActive(true);
+        startButton.SetActive(true);
+    }
+
+    public void CreateSampleCharacter()
+    {
+        if (selectedData == null)
+        {
+            selectedData = new SaveData();
+            string Name = string.IsNullOrEmpty(field.text) ? "Guest00" : field.text;
+            selectedData.characterName = Name;
+            CharacterClass cl = CharacterClass.warrior;
+            selectedData.stat = GetStat(cl);
+            SaveManager.SaveData<SaveData>(Name, selectedData);
+        }
+    }
+
+    Stats GetStat(CharacterClass cla)
+    {
+        Stats newStat = new Stats();
+        switch (cla)
+        {
+            case CharacterClass.warrior:
+                break;
+            case CharacterClass.knight:
+                break;
+            case CharacterClass.mercenary:
+                break;
+            case CharacterClass.magician:
+                break;
+            case CharacterClass.priest:
+                break;
+            case CharacterClass.assassin:
+                break;
+            case CharacterClass.hunter:
+                break;
+            case CharacterClass.warlock:
+                break;
+            case CharacterClass.sage:
+                break;
+        }
+
+        return newStat;
     }
 }
