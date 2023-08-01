@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler
+public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHandler
 {
     [SerializeField]
     RectTransform icon = null;
@@ -38,5 +38,10 @@ public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler
     {
         this.skill = skill;
         icon.GetComponent<UnityEngine.UI.Image>().sprite = skill.sprite;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        icon.localPosition = Vector3.zero;
     }
 }

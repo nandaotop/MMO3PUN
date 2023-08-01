@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler
+public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHandler
 {
     [SerializeField]
     RectTransform icon = null;
+    UnityEngine.UI.Image img;
     [SerializeField]
     Equip equip = null;
     [SerializeField]
@@ -30,7 +31,17 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler
 
     public void Init(Equip equip)
     {
-        this.equip = equip;
-        icon.GetComponent<UnityEngine.UI.Image>().sprite = equip.sprite;
+        // this.equip = equip;
+        // icon.GetComponent<UnityEngine.UI.Image>().sprite = equip.sprite;
+        img = icon.GetChild(0).GetComponent<UnityEngine.UI.Image>();
+        if (img != null)
+        {
+            img.sprite = equip.sprite;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        icon.localPosition = Vector3.zero;
     }
 }
