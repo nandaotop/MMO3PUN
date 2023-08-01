@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PlayerPanel : MonoBehaviour
 {
     [SerializeField]
     Button[] buttonList = null;
     [SerializeField]
-    GameObject slot = null;
+    EquipSlot slot = null;
     List<GameObject> currentSlots = new List<GameObject>();
     Inventory inventory;
+    [SerializeField]
+    Transform content = null;
     string[] buttonTypes = new string[]
     {
         "head","body","leg","shoes","belt","shoulder","leftWeapon","rightWeapon",
@@ -69,6 +72,20 @@ public class PlayerPanel : MonoBehaviour
             Destroy(obj);
         }
         currentSlots.Clear();
-        var arr = inventory.items;
+        List<Equip> list = new List<Equip>();
+        foreach (var item in inventory.items)
+        {
+            if (item is Equip)
+            {
+                list.Add(item as Equip);
+            }
+        }
+        var arr = list.Where(x => x.type == t).ToArray();
+        foreach (var element in arr)
+        {
+            EquipSlot newSlot = Instantiate(slot, content);
+            currentSlots.Add(newSlot.gameObject);
+            newSlot.Init(element);
+        }
     }
 }
