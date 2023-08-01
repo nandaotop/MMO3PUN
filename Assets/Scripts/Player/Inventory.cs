@@ -5,8 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class Inventory
 {
-    public List<Skill> playerSKills = new List<Skill>();
-    public List<Skill> equippedSKills = new List<Skill>();
+    public List<Pair<Skill, int>> equippedSKills = new List<Pair<Skill, int>>();
+    public List<Skill> skills = new List<Skill>();
+    public List<Item> items = new List<Item>();
     public Equip head, body, leg, shoes, belt, shoulder;
     public Equip leftWeapon, rightWeapon;
     public Equip lastEquip;
@@ -28,12 +29,38 @@ public class Inventory
     public void Init(SaveData data)
     {
         var allItems = Resources.LoadAll<Item>("");
+        var allSkills = Resources.LoadAll<Skill>("");
         foreach (var d in data.equip)
         {
             var item = GetItem<Item>(allItems, d);
             if (item != null)
             {
                 SetEquip(item as Equip);
+            }
+        }
+        foreach (var d in data.items)
+        {
+            var item = GetItem<Item>(allItems, d);
+            if (item != null)
+            {
+                items.Add(item);
+            }
+        }
+        foreach (var d in data.skills)
+        {
+            var skill = GetItem<Skill>(allSkills, d);
+            if (skill != null)
+            {
+                skills.Add(skill);
+            }
+        }
+        foreach (var d in data.equipSkills)
+        {
+            var skill = GetItem<Skill>(allSkills, d.Key);
+            if (skill != null)
+            {
+                var pair = new Pair<Skill, int>() {Key = skill, value = d.value};
+                equippedSKills.Add(pair);
             }
         }
     }
@@ -88,4 +115,25 @@ public class Inventory
         }
         return null;
     }
+
+    public void UpdateSKill(ActionController controller)
+    {
+        equippedSKills.Clear();
+        for (int i = 0; i < controller.actions.Count; i++)
+        {
+            var skill = controller.actions[i].skill;
+            if (skills != null)
+            {
+                var pair = new Pair<Skill, int>() {Key = skill, value = i};
+                equippedSKills.Add(pair);
+            }
+        }
+    }
+}
+
+[System.Serializable]
+public class Pair<T1, T2>
+{
+    public T1 Key;
+    public T2 value;
 }

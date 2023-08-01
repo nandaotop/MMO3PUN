@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     // PlayerPanel playerPanelPrefab = null;
     // PlayerPanel playerPanel;
     // [SerializeField]
-    Slider hpBar = null, manaBar = null;
+    // Slider hpBar = null, manaBar = null;
     [SerializeField]
     Text level = null;
     //photo
@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
     public void SpellBook()
     {
         spellBook.SetActive(true);
-        List<Skill> allSkills = controller.inventory.playerSKills;
+        List<Skill> allSkills = controller.inventory.skills;
         foreach (var s in allSkills)
         {
             SkillSlot slot = Instantiate(skillPrefab, content);
@@ -113,6 +113,21 @@ public class UIManager : MonoBehaviour
         var data = player.data;
         data.stat = player.stats;
         RecordString<Equip>(ref data.equip, inventory.AllEquip());
+        RecordString<Item>(ref data.items, inventory.items);
+        RecordString<Skill>(ref data.skills, inventory.skills);
+
+        data.equipSkills.Clear();
+
+        inventory.UpdateSKill(controller);
+
+        foreach (var eSkill in inventory.equippedSKills)
+        {
+            if (eSkill.Key != null)
+            {
+                data.equipSkills.Add(new Pair<string, int>() {Key= eSkill.Key.name, value = eSkill.value});
+            }
+        }
+
         SaveManager.SaveData<SaveData>(data.characterName, data);
         ShowBanner();
     }

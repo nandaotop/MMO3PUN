@@ -87,6 +87,10 @@ public class ActionController : MonoBehaviour
     void BuildInventory()
     {
         inventory.Init(player.data);
+        foreach (var item in inventory.equippedSKills)
+        {
+            actions[item.value].skill = item.Key;
+        }
     }
 
     void AutoAttack(float delta)
