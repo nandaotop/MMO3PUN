@@ -6939,7 +6939,7 @@ GameObject:
   - component: {fileID: 1062708002}
   - component: {fileID: 1062708001}
   m_Layer: 5
-  m_Name: Button (Legacy) (2)
+  m_Name: PlayerPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7025,7 +7025,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1062708003}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1122684191}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowPlayerPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1062708003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7046,7 +7058,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5659b073e19871d4da7394b6456da365, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d659f7396cd57754eba78763cf986c51, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7504,6 +7516,7 @@ MonoBehaviour:
   skillPrefab: {fileID: 3337043358949501351, guid: feebefe2a121882cd93aa1390f8c8429, type: 3}
   content: {fileID: 1687268446}
   banner: {fileID: 489700047}
+  playerPanelPrefab: {fileID: 8863916003174034606, guid: 9e118cf1349267906ab744eeee968e4d, type: 3}
   level: {fileID: 0}
   manaText: {fileID: 0}
   hpText: {fileID: 0}

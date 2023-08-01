@@ -24,9 +24,9 @@ public class UIManager : MonoBehaviour
     bool initialized = false;
     [SerializeField]
     DisableOverTime banner = null;
-    // [SerializeField]
-    // PlayerPanel playerPanelPrefab = null;
-    // PlayerPanel playerPanel;
+    [SerializeField]
+    PlayerPanel playerPanelPrefab = null;
+    PlayerPanel playerPanel;
     // [SerializeField]
     // Slider hpBar = null, manaBar = null;
     [SerializeField]
@@ -145,6 +145,19 @@ public class UIManager : MonoBehaviour
         {
             if (item != null)
                 list.Add(item.name);
+        }
+    }
+
+    public void ShowPlayerPanel()
+    {
+        if (playerPanel == null)
+        {
+            playerPanel = Instantiate(playerPanelPrefab);
+            playerPanel.Init(controller.inventory);
+        }
+        else
+        {
+            Destroy(playerPanel.gameObject);
         }
     }
 }
