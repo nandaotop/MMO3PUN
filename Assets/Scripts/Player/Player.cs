@@ -15,19 +15,28 @@ public class Player : Entity
     const float second = 1;
     float manaCounter = 1;
     public SaveData data = new SaveData();
-
+    public bool debug = false;
     public override void Init()
     {
         base.Init();
         if (!photonView.IsMine) return;
 
-        data = CharacterCreate.selectedData;
-
-        data = SaveManager.LoadData<SaveData>(data.characterName);
-        if (data == null)
+        if (debug)
         {
-            data = new SaveData();
+            data = SaveManager.LoadData<SaveData>("Debug");
+            Debug.Log(debug);
+            Debug.Log(data);
         }
+        else
+        {
+            data = CharacterCreate.selectedData;
+            if (data == null)
+            {
+                data = new SaveData();
+            }
+        }
+
+        // data = SaveManager.LoadData<SaveData>(data.characterName);
 
         controller = GetComponent<ActionController>();
         controller.sync = sync;

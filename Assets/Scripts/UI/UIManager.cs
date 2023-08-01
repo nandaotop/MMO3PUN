@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     ActionController controller;
     bool initialized = false;
     [SerializeField]
-    // DisableOverTime banner = null;
+    DisableOverTime banner = null;
     // [SerializeField]
     // PlayerPanel playerPanelPrefab = null;
     // PlayerPanel playerPanel;
@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
     // TalentBook talentBook = null;
     [SerializeField]
     Text manaText = null, hpText = null;
-    [SerializeField]
+    // [SerializeField]
     // DisableOverTime drop_banner = null;
     // [SerializeField]
     // DropPanel dropPrefab = null;
@@ -105,5 +105,31 @@ public class UIManager : MonoBehaviour
         }
         toDeleteSkills.Clear();
         spellBook.SetActive(false);
+    }
+
+    public void SaveGame()
+    {
+        var inventory = controller.inventory;
+        var data = player.data;
+        data.stat = player.stats;
+        RecordString<Equip>(ref data.equip, inventory.AllEquip());
+        SaveManager.SaveData<SaveData>(data.characterName, data);
+        ShowBanner();
+    }
+
+    public void ShowBanner(string message = "gg", float lifetime = 1)
+    {
+        banner.gameObject.SetActive(true);
+        banner.Init(message, lifetime);
+    }
+
+    void RecordString<T>(ref List<string>list, List<T>template)where T: ScriptableObject
+    {
+        list.Clear();
+        foreach (var item in template)
+        {
+            if (item != null)
+                list.Add(item.name);
+        }
     }
 }

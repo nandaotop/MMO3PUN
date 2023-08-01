@@ -613,6 +613,7 @@ MonoBehaviour:
     experience: 0
     talentPoint: 0
     coin: 0
+  debug: 0
 --- !u!114 &8511311995311125380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,6 +670,7 @@ MonoBehaviour:
   mana: 0
   inventory:
     playerSKills: []
+    equippedSKills: []
     head: {fileID: 0}
     body: {fileID: 0}
     leg: {fileID: 0}
@@ -677,6 +679,7 @@ MonoBehaviour:
     shoulder: {fileID: 0}
     leftWeapon: {fileID: 0}
     rightWeapon: {fileID: 0}
+    lastEquip: {fileID: 0}
 --- !u!1 &668687205271081968
 GameObject:
   m_ObjectHideFlags: 0

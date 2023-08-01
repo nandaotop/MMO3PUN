@@ -86,7 +86,7 @@ public class ActionController : MonoBehaviour
 
     void BuildInventory()
     {
-        inventory.Init();
+        inventory.Init(player.data);
     }
 
     void AutoAttack(float delta)
