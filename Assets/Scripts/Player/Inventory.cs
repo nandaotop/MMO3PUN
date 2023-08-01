@@ -32,10 +32,10 @@ public class Inventory
         var allSkills = Resources.LoadAll<Skill>("");
         foreach (var d in data.equip)
         {
-            var item = GetItem<Item>(allItems, d);
+            var item = GetItem<Item>(allItems, d.Key);
             if (item != null)
             {
-                SetEquip(item as Equip);
+                SetEquip(item as Equip, d.value);
             }
         }
         foreach (var d in data.items)
@@ -65,7 +65,7 @@ public class Inventory
         }
     }
 
-    public void SetEquip(Equip equip)
+    public void SetEquip(Equip equip, int id = 0)
     {
         switch (equip.type)
         {

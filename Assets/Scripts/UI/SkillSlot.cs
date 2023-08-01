@@ -39,10 +39,4 @@ public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler
         this.skill = skill;
         icon.GetComponent<UnityEngine.UI.Image>().sprite = skill.sprite;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -112,7 +112,17 @@ public class UIManager : MonoBehaviour
         var inventory = controller.inventory;
         var data = player.data;
         data.stat = player.stats;
-        RecordString<Equip>(ref data.equip, inventory.AllEquip());
+        data.equip.Clear();
+        int index = 0;
+        foreach (var item in inventory.AllEquip())
+        {
+            if (item != null)
+            {
+                var pair = new Pair<string, int>() {Key = item.name, value = index};
+                data.equip.Add(pair);
+            }
+            index++;
+        }
         RecordString<Item>(ref data.items, inventory.items);
         RecordString<Skill>(ref data.skills, inventory.skills);
 

@@ -9,7 +9,7 @@ public class SaveData
     public Stats stat = new Stats();
     public List<string> skills = new List<string>();
     public List<Pair<string, int>> equipSkills = new List<Pair<string, int>>();
-    public List<string> equip = new List<string>();
+    public List<Pair<string, int>> equip = new List<Pair<string, int>>();
     // public List<Pair<string, int>> equipSkills = new List<Pair<string, int>>();
     // public List<Pair<string, int>> equip = new List<Pair<string, int>>();
     public List<string> items = new List<string>();
