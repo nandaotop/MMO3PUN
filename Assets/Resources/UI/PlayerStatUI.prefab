@@ -1749,7 +1749,16 @@ MonoBehaviour:
     leftWeapon: {fileID: 0}
     rightWeapon: {fileID: 0}
     lastEquip: {fileID: 0}
+    coin: 0
   content: {fileID: 1304605055509192926}
+  hpText: {fileID: 2173147527049966366}
+  staminaText: {fileID: 3865019224801962096}
+  strenghtText: {fileID: 470504151289679923}
+  manaText: {fileID: 2638500756016863817}
+  agilityText: {fileID: 5318830698115611554}
+  intellectText: {fileID: 1633787993017868699}
+  armorText: {fileID: 775624813269643578}
+  coinText: {fileID: 5672199169485755065}
 --- !u!1 &3199429674206267883
 GameObject:
   m_ObjectHideFlags: 0

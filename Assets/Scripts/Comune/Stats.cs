@@ -22,6 +22,14 @@ public class Stats
     public float Agility = 1;
     public float Aggro = 1;
     public CharacterClass charClass = CharacterClass.warrior;
+
+
+    // deletar
+    public int Stamina = 1;
+    public int Strenght = 1;
+    public int Intellect = 1;
+    public int AgilityInt = 1;
+    public int Armor = 1;
 }
 
 public enum CharacterClass

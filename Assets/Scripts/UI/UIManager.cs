@@ -163,7 +163,7 @@ public class UIManager : MonoBehaviour
         if (playerPanel == null)
         {
             playerPanel = Instantiate(playerPanelPrefab);
-            playerPanel.Init(controller.inventory);
+            playerPanel.Init(player, controller.inventory);
         }
         else
         {

@@ -19,8 +19,18 @@ public class PlayerPanel : MonoBehaviour
         "head","body","leg","shoes","belt","shoulder","leftWeapon","rightWeapon",
     };
 
-    public void Init(Inventory inventory)
+    [SerializeField]
+    Text hpText = null, staminaText = null, strenghtText = null;
+    [SerializeField]
+    Text manaText = null, agilityText = null, intellectText = null;
+    [SerializeField]
+    Text armorText = null, coinText = null;
+
+    Player player;
+
+    public void Init(Player p, Inventory inventory)
     {
+        player = p;
         this.inventory = inventory;
 
         for (int i = 0; i < buttonList.Length; i++)
@@ -87,5 +97,35 @@ public class PlayerPanel : MonoBehaviour
             currentSlots.Add(newSlot.gameObject);
             newSlot.Init(element, this);
         }
+        ShowStats();
+    }
+
+    public void ShowStats()
+    {
+        Stats s = player.stats;
+        List<Equip> equip = inventory.AllEquip();
+        int stamina, strenght, intellect, agility, armor, hp, mana;
+
+        stamina = GetVal(inventory.GetParameter(StaticStrings.stamina), s.Stamina);
+        strenght = GetVal(inventory.GetParameter(StaticStrings.strenght), s.Strenght);
+        intellect = GetVal(inventory.GetParameter(StaticStrings.intellect), s.Intellect);
+        agility = GetVal(inventory.GetParameter(StaticStrings.agility), s.AgilityInt);
+        armor = GetVal(inventory.GetParameter(StaticStrings.armor), s.Armor);
+
+        staminaText.text = stamina.ToString();
+        strenghtText.text = strenght.ToString();
+        intellectText.text = intellect.ToString();
+        agilityText.text = agility.ToString();
+        armorText.text = armor.ToString();
+    }
+
+    int GetVal(params int[] values)
+    {
+        var total = 0;
+        foreach (var v in values)
+        {
+            total += v;
+        }
+        return total;
     }
 }

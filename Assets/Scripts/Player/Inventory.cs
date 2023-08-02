@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class Inventory
@@ -11,6 +12,7 @@ public class Inventory
     public Equip head, body, leg, shoes, belt, shoulder;
     public Equip leftWeapon, rightWeapon;
     public Equip lastEquip;
+    public int coin = 0;
 
     public List<Equip> AllEquip()
     {
@@ -24,6 +26,34 @@ public class Inventory
         equipList.Add(leftWeapon);
         equipList.Add(rightWeapon);
         return equipList;
+    }
+
+    public int GetParameter(string s)
+    {
+        var equip = AllEquip().Where(x => x != null);
+        int val = 0;
+        foreach (var e in equip)
+        {
+            switch (s)
+            {
+                case "stamina":
+                    val += e.stamina;
+                    break;
+                case "strenght":
+                    val += e.strenght;
+                    break;
+                case "intellect":
+                    val += e.intellect;
+                    break;
+                case "agility":
+                    val += e.agility;
+                    break;
+                case "armor":
+                    val += e.armor;
+                    break;
+            }
+        }
+        return val;
     }
 
     public void Init(SaveData data)

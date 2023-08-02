@@ -17,3 +17,9 @@ MonoBehaviour:
   cost: 0
   dropRate: 75
   type: 1
+  rarety: 0
+  stamina: 0
+  strenght: 0
+  intellect: 0
+  agility: 0
+  armor: 15

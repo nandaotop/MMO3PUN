@@ -18,3 +18,8 @@ MonoBehaviour:
   dropRate: 75
   type: 7
   rarety: 0
+  stamina: 0
+  strenght: 5
+  intellect: 0
+  agility: 0
+  armor: 0
