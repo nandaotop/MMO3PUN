@@ -102,6 +102,24 @@ public class Inventory
                 rightWeapon = equip;
                 break;
         }
+
+        if (lastEquip != null)
+        {
+            items.Add(lastEquip);
+            lastEquip = null;
+        }
+    }
+
+    public void RemoveItem(Equip e)
+    {
+        foreach (var i in items)
+        {
+            if (i.name == e.name)
+            {
+                items.Remove(i);
+                break;
+            }
+        }
     }
 
     T GetItem<T>(T[] arr, string s) where T: ScriptableObject

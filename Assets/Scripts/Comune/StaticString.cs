@@ -37,3 +37,31 @@ public static class Effects
     public const string Slash = "Slash";
     
 }
+
+public static class Helper
+{
+    public static Color GetColor(Rarety rare)
+    {
+        Color c = Color.white;
+        switch (rare)
+        {
+            case Rarety.comune:
+                c = Color.gray;
+                break;            
+            case Rarety.good:
+                c = Color.green;
+                break;            
+            case Rarety.rare:
+                c = Color.blue;
+                break;            
+            case Rarety.epic:
+                c = Color.magenta;
+                break;            
+            case Rarety.legendary:
+                c = Color.cyan;
+                break;            
+        }
+
+        return c;
+    }
+}

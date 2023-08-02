@@ -24,8 +24,6 @@ public class Player : Entity
         if (debug)
         {
             data = SaveManager.LoadData<SaveData>("Debug");
-            Debug.Log(debug);
-            Debug.Log(data);
         }
         else
         {

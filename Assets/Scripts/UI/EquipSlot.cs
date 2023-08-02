@@ -12,6 +12,7 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
     Equip equip = null;
     [SerializeField]
     float lenght = 10;
+    PlayerPanel panel;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -25,14 +26,24 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction);
         foreach (var h in hits)
         {
+            BodySlot body = h.transform.GetComponent<BodySlot>();
+            if (body != null)
+            {
+                if (body.SetUp(equip, panel.inventory))
+                {
+                    panel.inventory.RemoveItem(equip);
+                    panel.ShowSlots(equip.type);
+                }
+            }
         }
         icon.localPosition = Vector3.zero;
     }
 
-    public void Init(Equip equip)
+    public void Init(Equip equip, PlayerPanel panel)
     {
-        // this.equip = equip;
-        // icon.GetComponent<UnityEngine.UI.Image>().sprite = equip.sprite;
+        this.panel = panel;
+        this.equip = equip;
+        icon.GetComponent<UnityEngine.UI.Image>().color = Helper.GetColor(equip.rarety);
         img = icon.GetChild(0).GetComponent<UnityEngine.UI.Image>();
         if (img != null)
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Equip : Item
 {
     public EquipType type = EquipType.head;
-    // public Rarety rarety=Rarety.comune;
+    public Rarety rarety=Rarety.comune;
     // public int stamina, strenght, intellect, agility;
     // public int armor;
     // public GameObject model;

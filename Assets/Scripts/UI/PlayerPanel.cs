@@ -11,7 +11,7 @@ public class PlayerPanel : MonoBehaviour
     [SerializeField]
     EquipSlot slot = null;
     List<GameObject> currentSlots = new List<GameObject>();
-    Inventory inventory;
+    public Inventory inventory;
     [SerializeField]
     Transform content = null;
     string[] buttonTypes = new string[]
@@ -65,7 +65,7 @@ public class PlayerPanel : MonoBehaviour
         ShowSlots(t);
     }
 
-    void ShowSlots(EquipType t)
+    public void ShowSlots(EquipType t)
     {
         foreach (var obj in currentSlots)
         {
@@ -85,7 +85,7 @@ public class PlayerPanel : MonoBehaviour
         {
             EquipSlot newSlot = Instantiate(slot, content);
             currentSlots.Add(newSlot.gameObject);
-            newSlot.Init(element);
+            newSlot.Init(element, this);
         }
     }
 }
