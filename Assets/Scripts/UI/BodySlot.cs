@@ -15,6 +15,8 @@ public class BodySlot : MonoBehaviour
     public bool SetUp(Equip e, Inventory inventory)
     {
         if (e.type != type) return false;
+        Debug.Log(e.sprite);
+        Debug.Log(e);
         inventory.SetEquip(e, id);
         icon.sprite = e.sprite;
         border.color = Helper.GetColor(e.rarety);
