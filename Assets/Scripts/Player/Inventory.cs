@@ -13,6 +13,7 @@ public class Inventory
     public Equip leftWeapon, rightWeapon;
     public Equip lastEquip;
     public int coin = 0;
+    Player player;
 
     public List<Equip> AllEquip()
     {
@@ -56,10 +57,12 @@ public class Inventory
         return val;
     }
 
-    public void Init(SaveData data)
+    public void Init(Player p)
     {
         var allItems = Resources.LoadAll<Item>("");
         var allSkills = Resources.LoadAll<Skill>("");
+        this.player = p;
+        SaveData data = player.data;
         foreach (var d in data.equip)
         {
             var item = GetItem<Item>(allItems, d.Key);
@@ -97,6 +100,8 @@ public class Inventory
 
     public void SetEquip(Equip equip, int id = 0)
     {
+        if (equip == null) return;
+
         switch (equip.type)
         {
             case EquipType.head:
@@ -134,10 +139,12 @@ public class Inventory
         }
 
         if (lastEquip != null)
-        {
+        { 
             items.Add(lastEquip);
             lastEquip = null;
         }
+
+        player.OnChangeItem();
     }
 
     public void RemoveItem(Equip e)

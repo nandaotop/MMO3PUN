@@ -27,6 +27,8 @@ public class PlayerPanel : MonoBehaviour
     Text armorText = null, coinText = null;
 
     Player player;
+    [SerializeField]
+    DiffentWriter writer = null;
 
     public void Init(Player p, Inventory inventory)
     {
@@ -103,8 +105,7 @@ public class PlayerPanel : MonoBehaviour
     public void ShowStats()
     {
         Stats s = player.stats;
-        List<Equip> equip = inventory.AllEquip();
-        int stamina, strenght, intellect, agility, armor, hp, mana;
+        int stamina, strenght, intellect, agility, armor;
 
         stamina = GetVal(inventory.GetParameter(StaticStrings.stamina), s.Stamina);
         strenght = GetVal(inventory.GetParameter(StaticStrings.strenght), s.Strenght);
@@ -117,6 +118,35 @@ public class PlayerPanel : MonoBehaviour
         intellectText.text = intellect.ToString();
         agilityText.text = agility.ToString();
         armorText.text = armor.ToString();
+
+        hpText.text = player.maxHp.ToString();
+        manaText.text = player.maxMana.ToString();
+    }
+
+    public void ShowDifference(Equip newEquip)
+    {
+        Equip oldEquip = null;
+        foreach (var item in inventory.AllEquip())
+        {
+            if (item == null) continue;
+            if (item.type == newEquip.type)
+            {
+                oldEquip = item;
+                break;
+            }
+        }
+        if (oldEquip != null)
+        {
+
+        }
+        else
+        {
+            writer.ShowDiffence(newEquip.stamina, StaticStrings.stamina);
+            writer.ShowDiffence(newEquip.strenght, StaticStrings.strenght);
+            writer.ShowDiffence(newEquip.agility, StaticStrings.agility);
+            writer.ShowDiffence(newEquip.intellect, StaticStrings.intellect);
+            writer.ShowDiffence(newEquip.armor, StaticStrings.armor);
+        }
     }
 
     int GetVal(params int[] values)

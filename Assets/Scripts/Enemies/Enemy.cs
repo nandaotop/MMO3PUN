@@ -32,6 +32,7 @@ public class Enemy : Entity
     public override void Init()
     {
         base.Init();
+        CalculateStats(stats.Stamina, stats.Intellect);
         timer.StartTimer(wait);
         startPosition = transform.position;
         endPos = transform.position + direction;
@@ -40,6 +41,7 @@ public class Enemy : Entity
         {
             Invoke("Respawn", respawnTime);
         };
+
     }
 
     public override void Tick()

@@ -14,10 +14,14 @@ public abstract class Entity : MonoBehaviourPun
     [SerializeField]
     protected int hp = 10; // TODO: utilizar float ao fim do curso
     public int maxHp;
+    public int maxMana;
 
     protected PhotonView view;
     public System.Action OnDeathEvent;
-
+    [SerializeField]
+    protected int hpMultipler = 2;
+    [SerializeField]
+    protected int manaMultipler = 2;
     void Start()
     {
         Init();
@@ -97,5 +101,11 @@ public abstract class Entity : MonoBehaviourPun
         this.hp = hp;
         this.maxHp = max;
         // UpdateUI(this.hp,max);
+    }
+
+    public void CalculateStats(int stamina, int intellect)
+    {
+        maxHp = stamina * hpMultipler;
+        maxMana = intellect * manaMultipler;
     }
 }

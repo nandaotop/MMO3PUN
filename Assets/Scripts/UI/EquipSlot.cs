@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHandler
+public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHandler, IPointerEnterHandler
 {
     [SerializeField]
     RectTransform icon = null;
@@ -54,5 +54,10 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
     public void OnEndDrag(PointerEventData eventData)
     {
         icon.localPosition = Vector3.zero;
+    }
+    
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        panel.ShowDifference(equip);
     }
 }

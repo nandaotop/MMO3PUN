@@ -39,6 +39,7 @@ public class Player : Entity
         controller = GetComponent<ActionController>();
         controller.sync = sync;
         controller.Init(this);
+        OnChangeItem();
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
         follow = Instantiate(f, transform.position, transform.rotation);
         follow.Init(transform);
@@ -118,5 +119,12 @@ public class Player : Entity
         {
             view.RPC("SyncronizeStat", Photon.Pun.RpcTarget.All, hp,maxHp);
         }
+    }
+
+    public void OnChangeItem()
+    {
+        int stamina = stats.Stamina + controller.inventory.GetParameter(StaticStrings.stamina);
+        int intellect = stats.Intellect + controller.inventory.GetParameter(StaticStrings.intellect);
+        CalculateStats(stamina, intellect);
     }
 }
