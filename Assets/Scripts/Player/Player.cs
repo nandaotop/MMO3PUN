@@ -16,6 +16,7 @@ public class Player : Entity
     float manaCounter = 1;
     public SaveData data = new SaveData();
     public bool debug = false;
+    public bool CanMove = true;
     public override void Init()
     {
         base.Init();
@@ -53,17 +54,16 @@ public class Player : Entity
 
     public override void Tick()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SaveManager.SaveData(data.characterName, data);
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     SaveManager.SaveData(data.characterName, data);
+        // }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            data = SaveManager.LoadData<SaveData>(data.characterName);
-        }
+        // if (Input.GetKeyDown(KeyCode.L))
+        // {
+        //     data = SaveManager.LoadData<SaveData>(data.characterName);
+        // }
 
-        UseCamera();
         if (controller.mana < stats.Mana)
         {
             manaCounter -= Time.deltaTime;
@@ -75,7 +75,9 @@ public class Player : Entity
             }
         }
 
-        if (!CanMove()) return;
+        if (!CanMove) return;
+        UseCamera();
+        if (isDeath) return;
 
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
@@ -102,13 +104,6 @@ public class Player : Entity
         }
     }
 
-    bool CanMove()
-    {
-        if (isDeath) return false;
-
-        return true;
-    }
-
     public void Respawn()
     {
         transform.position = WorldManager.instance.respawnPoint.position;
@@ -119,6 +114,13 @@ public class Player : Entity
         {
             view.RPC("SyncronizeStat", Photon.Pun.RpcTarget.All, hp,maxHp);
         }
+    }
+
+    public void LockPlayer()
+    {
+        CanMove = false;
+        rb.velocity = Vector3.zero;
+        sync.Move(0, 0);
     }
 
     public void OnChangeItem()

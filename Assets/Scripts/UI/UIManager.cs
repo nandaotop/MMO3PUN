@@ -164,9 +164,11 @@ public class UIManager : MonoBehaviour
         {
             playerPanel = Instantiate(playerPanelPrefab);
             playerPanel.Init(player, controller.inventory);
+            player.LockPlayer();
         }
         else
         {
+            player.CanMove = true;
             Destroy(playerPanel.gameObject);
         }
     }

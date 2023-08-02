@@ -18,10 +18,8 @@ public abstract class Entity : MonoBehaviourPun
 
     protected PhotonView view;
     public System.Action OnDeathEvent;
-    [SerializeField]
-    protected int hpMultipler = 2;
-    [SerializeField]
-    protected int manaMultipler = 2;
+    public int hpMultipler = 2;
+    public int manaMultipler = 2;
     void Start()
     {
         Init();
