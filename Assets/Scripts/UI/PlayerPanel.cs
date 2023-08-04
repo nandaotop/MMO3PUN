@@ -30,12 +30,12 @@ public class PlayerPanel : MonoBehaviour
     [SerializeField]
     DiffentWriter writer = null;
 
-    [SerializeField]
-    Text itemStamina = null;
-    [SerializeField]
-    Text itemStrenght = null,  itemIntellect = null;
-    [SerializeField]
-    Text itemName = null, itemAgility = null, itemArmor = null;
+    // [SerializeField]
+    // Text itemStamina = null;
+    // [SerializeField]
+    // Text itemStrenght = null,  itemIntellect = null;
+    // [SerializeField]
+    // Text itemName = null, itemAgility = null, itemArmor = null;
 
     public void Init(Player p, Inventory inventory)
     {
@@ -108,6 +108,7 @@ public class PlayerPanel : MonoBehaviour
             }
         }
         var arr = list.Where(x => x.type == t).ToArray();
+        // var arr = list.ToArray();
         foreach (var element in arr)
         {
             EquipSlot newSlot = Instantiate(slot, content);
@@ -183,18 +184,18 @@ public class PlayerPanel : MonoBehaviour
             writer.ShowDiffence(player.manaMultipler * newEquip.intellect, StaticStrings.mana);
         }
 
-        ShowCurrentItem(newEquip);
+        // ShowCurrentItem(newEquip);
     }
 
-    void ShowCurrentItem(Equip e)
-    {
-        itemName.text = e.name;
-        itemStamina.text = "Stamina: " + e.stamina;
-        itemStrenght.text = "Strenght: " + e.strenght;
-        itemAgility.text = "Agility: " + e.agility;
-        itemIntellect.text = "Intellect: " + e.intellect;
-        itemArmor.text = "Armor: " + e.armor;
-    }
+    // void ShowCurrentItem(Equip e)
+    // {
+    //     itemName.text = e.name;
+    //     itemStamina.text = "Stamina: " + e.stamina;
+    //     itemStrenght.text = "Strenght: " + e.strenght;
+    //     itemAgility.text = "Agility: " + e.agility;
+    //     itemIntellect.text = "Intellect: " + e.intellect;
+    //     itemArmor.text = "Armor: " + e.armor;
+    // }
 
     int GetVal(params int[] values)
     {
