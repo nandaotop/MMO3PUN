@@ -99,7 +99,7 @@ public class CharacterCreate : MonoBehaviour
     //     }
     // }
 
-    Stats GetStat(CharacterClass cla)
+    public static Stats GetStat(CharacterClass cla)
     {
         Stats newStat = new Stats();
         switch (cla)

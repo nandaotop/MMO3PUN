@@ -71,4 +71,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(1);
         PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
     }
+
+    public void ChangeRoom(string LevelName)
+    {
+        Debug.Log("interaction1");
+    }
 }

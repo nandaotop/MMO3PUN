@@ -15,24 +15,42 @@ public class Player : Entity
     const float second = 1;
     float manaCounter = 1;
     public SaveData data = new SaveData();
-    public bool debug = false;
+    // public bool debug = false;
     public bool CanMove = true;
+    [SerializeField]
+    GameObject uiMan = null;
+    [SerializeField]
+    CharacterClass debugClass = CharacterClass.warrior;
+
     public override void Init()
     {
         base.Init();
         if (!photonView.IsMine) return;
 
-        if (debug)
+        if (uiMan != null)
         {
-            data = SaveManager.LoadData<SaveData>("Debug");
+            Instantiate(uiMan);
         }
-        else
+
+        // if (debug)
+        // {
+        //     data = SaveManager.LoadData<SaveData>("Debug");
+        // }
+        // else
+        // {
+        //     data = CharacterCreate.selectedData;
+        //     if (data == null)
+        //     {
+        //         data = new SaveData();
+        //     }
+        // }
+
+        data = CharacterCreate.selectedData;
+        if (data == null)
         {
-            data = CharacterCreate.selectedData;
-            if (data == null)
-            {
-                data = new SaveData();
-            }
+            data = new SaveData();
+            data.stat = CharacterCreate.GetStat(debugClass);
+            data.characterName = "Gustav";
         }
 
         // data = SaveManager.LoadData<SaveData>(data.characterName);
