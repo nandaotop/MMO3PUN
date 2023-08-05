@@ -573,7 +573,7 @@ MonoBehaviour:
   stats:
     Level: 1
     HP: 1
-    Mana: 1
+    Mana: 5
     PhysicalAttack: 1
     Wisdom: 1
     MagicalAttack: 1
@@ -582,38 +582,46 @@ MonoBehaviour:
     Agility: 1
     Aggro: 1
     charClass: 0
+    Stamina: 1
+    Strenght: 1
+    Intellect: 1
+    AgilityInt: 1
+    Armor: 1
   hp: 3
   maxHp: 0
+  maxMana: 0
+  hpMultipler: 2
+  manaMultipler: 2
   rotSpeed: 2
   scrollAmount: 10
   minZoom: 10
   maxZoom: 120
   data:
-    characterName: 
+    characterName: Pipo
     stat:
-      Level: 1
-      HP: 1
-      Mana: 1
-      PhysicalAttack: 1
+      Level: 10
+      HP: 1010
+      Mana: 10
+      PhysicalAttack: 10
       Wisdom: 1
-      MagicalAttack: 1
-      PhysicalDefense: 1
-      MagicalDefense: 1
-      Agility: 1
-      Aggro: 1
+      MagicalAttack: 10
+      PhysicalDefense: 10
+      MagicalDefense: 10
+      Agility: 10
+      Aggro: 10
       charClass: 0
+      Stamina: 1
+      Strenght: 1
+      Intellect: 1
+      AgilityInt: 1
+      Armor: 1
     skills: []
+    equipSkills: []
     equip: []
     items: []
-    LevelName: Level1
-    currentScene: 1
-    x: 0
-    y: 0
-    z: 0
-    experience: 0
-    talentPoint: 0
-    coin: 0
-  debug: 0
+  CanMove: 1
+  uiMan: {fileID: 8854195676864933715, guid: d8e64989e764d8363a460484cdc7c00c, type: 3}
+  debugClass: 0
 --- !u!114 &8511311995311125380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,7 +640,7 @@ MonoBehaviour:
   attackDelay: 2
   actions:
   - key: 122
-    skill: {fileID: 11400000, guid: abdd92366388e0d8d9fb5d4c45635ed7, type: 2}
+    skill: {fileID: 0}
     button: {fileID: 0}
   - key: 120
     skill: {fileID: 0}
@@ -669,8 +677,9 @@ MonoBehaviour:
     button: {fileID: 0}
   mana: 0
   inventory:
-    playerSKills: []
     equippedSKills: []
+    skills: []
+    items: []
     head: {fileID: 0}
     body: {fileID: 0}
     leg: {fileID: 0}
@@ -680,6 +689,8 @@ MonoBehaviour:
     leftWeapon: {fileID: 0}
     rightWeapon: {fileID: 0}
     lastEquip: {fileID: 0}
+    coin: 0
+  interactDistance: 5
 --- !u!1 &668687205271081968
 GameObject:
   m_ObjectHideFlags: 0
