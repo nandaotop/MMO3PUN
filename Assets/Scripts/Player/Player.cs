@@ -93,6 +93,8 @@ public class Player : Entity
             }
         }
 
+        controller.MouseLeft();
+
         if (!CanMove) return;
         UseCamera();
         if (isDeath) return;
@@ -109,10 +111,7 @@ public class Player : Entity
 
     void UseCamera()
     {
-        float x = Input.GetAxisRaw("Mouse X");
         float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
-        Vector3 rot = follow.transform.rotation.eulerAngles;
-        follow.transform.rotation = Quaternion.Euler(rot.x, rot.y + x * rotSpeed, rot.z);
         if (scroll != 0)
         {
             float val = scrollAmount * scroll;
@@ -120,6 +119,13 @@ public class Player : Entity
             val = Mathf.Clamp(val, minZoom, maxZoom);
             follow.cam.fieldOfView = val;
         }
+        if (Input.GetMouseButton(1))
+        {
+            float x = Input.GetAxisRaw("Mouse X");
+            Vector3 rot = follow.transform.rotation.eulerAngles;
+            follow.transform.rotation = Quaternion.Euler(rot.x, rot.y + x * rotSpeed, rot.z);
+        }
+        
     }
 
     public void Respawn()

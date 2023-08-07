@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 1691178421}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1153,6 +1153,30 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8511311995311125380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: cursorList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511311995311125380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: cursorList.Array.data[0]
+      value: 
+      objectReference: {fileID: 2800000, guid: 2e71a8202d3b4a3448ec85ced5a40265, type: 3}
+    - target: {fileID: 8511311995311125380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: cursorList.Array.data[1]
+      value: 
+      objectReference: {fileID: 2800000, guid: 2d18e23e3ce249b4489b8bcdd02d3f48, type: 3}
+    - target: {fileID: 8511311995311125380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: cursorList.Array.data[2]
+      value: 
+      objectReference: {fileID: 2800000, guid: b23a0084fea403945a302e12cc707439, type: 3}
+    - target: {fileID: 8511311995311125380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: cursorList.Array.data[3]
+      value: 
+      objectReference: {fileID: 2800000, guid: f8c873f1e53e83f4aabf342d6be1dfc3, type: 3}
+    - target: {fileID: 8511311995311125380, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
+      propertyPath: cursorList.Array.data[4]
+      value: 
+      objectReference: {fileID: 2800000, guid: 1e1ecf843f705b34ab304dff88b037c1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
