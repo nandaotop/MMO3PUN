@@ -754,7 +754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 626206878398920990, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1290976471141074040, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: sceneViewId
@@ -778,11 +778,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8876122593553313961, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8876122593553313961, guid: 19fed892623c9e6b4a3e1c59961b22e7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

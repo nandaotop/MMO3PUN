@@ -37,25 +37,12 @@ public class Player : Entity
             Instantiate(uiMan);
         }
 
-        // if (debug)
-        // {
-        //     data = SaveManager.LoadData<SaveData>("Debug");
-        // }
-        // else
-        // {
-        //     data = CharacterCreate.selectedData;
-        //     if (data == null)
-        //     {
-        //         data = new SaveData();
-        //     }
-        // }
-
         data = CharacterCreate.selectedData;
         if (data == null)
         {
             data = new SaveData();
             data.stat = CharacterCreate.GetStat(debugClass);
-            data.characterName = "Gustav";
+            data.characterName = "Debug";
         }
 
         // data = SaveManager.LoadData<SaveData>(data.characterName);
