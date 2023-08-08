@@ -9,21 +9,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public static NetworkManager instance;
     [SerializeField]
     GameObject connectPanel = null;
-    const string world = "World";
+    string world = "World";
     int currentLevel = 1;
     [SerializeField]
-    GameObject startButton = null;
+    GameObject startButton=null;
     [SerializeField]
     GameObject player = null;
     [SerializeField]
     GameObject[] disableOnStart = null;
-    [SerializeField]
-    Animator fadescreen = null;
+    public Animator fadescreen = null;
     [SerializeField]
     CharacterCreate create = null;
+    System.Action OnChangeLevel;
 
-    private void Awake() {
-        if (instance != null)
+    private void Awake()
+    {
+        if(instance!=null)
         {
             Destroy(gameObject);
         }
@@ -33,7 +34,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             DontDestroyOnLoad(gameObject);
         }
     }
-
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -52,28 +52,64 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        foreach (var o in disableOnStart)
+        foreach(var o in disableOnStart)
         {
             o.SetActive(false);
         }
-        SaveManager.SaveData(CharacterCreate.selectedData.characterName, CharacterCreate.selectedData);
+        var data = CharacterCreate.selectedData;
+        currentLevel = data.currentScene;
+        world = data.LevelName;
+        fadescreen.Play("FadeIn");
+        SaveManager.SaveData(data.characterName, data);
         PhotonNetwork.LoadLevel(currentLevel);
-        fadescreen.Play("FadeOut");
         RoomOptions options = new RoomOptions();
-        options.MaxPlayers = 20; // TODO: max
+        options.MaxPlayers = 20;
         PhotonNetwork.JoinOrCreateRoom(world, options, TypedLobby.Default);
         startButton.SetActive(false);
+        
+    }
+
+    public override void OnJoinedRoom()
+    {
         StartCoroutine(JoinRoomCo());
     }
 
     IEnumerator JoinRoomCo()
     {
         yield return new WaitForSeconds(1);
-        PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
+        var playerObj= PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
+        fadescreen.Play("FadeOut");
+        var data = CharacterCreate.selectedData;
+        if(data!=null)
+        {
+            playerObj.transform.position = new Vector3(data.x, data.y, data.z);
+        }
     }
 
-    public void ChangeRoom(string LevelName)
+    public override void OnJoinedLobby()
     {
-        Debug.Log("interaction1");
+        if(OnChangeLevel!=null)
+        {
+            OnChangeLevel.Invoke();
+        }
     }
+
+    public void ChangeRoom(Levels level)
+    {
+        currentLevel = (int)level;
+        world = level.ToString();
+        if (OnChangeLevel==null)
+        {
+            OnChangeLevel = () =>
+            {
+                PhotonNetwork.LoadLevel(currentLevel);
+                RoomOptions options = new RoomOptions();
+                options.MaxPlayers = 20;
+                PhotonNetwork.JoinOrCreateRoom(world, options, TypedLobby.Default);
+            };
+        }
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Enemy : Entity
 {
     [SerializeField]
+    string EnemyName = "Skeleton";
+    [SerializeField]
     EnemyState estate = EnemyState.idle;
     Timer timer = new Timer();
     float delta;
@@ -41,7 +43,11 @@ public class Enemy : Entity
         {
             Invoke("Respawn", respawnTime);
         };
-
+        hp = maxHp;
+        if (localUI != null)
+        {
+            nameText.text = EnemyName;
+        }
     }
 
     public override void Tick()
@@ -113,7 +119,6 @@ public class Enemy : Entity
         {
             if (!timer.timerActive(Time.deltaTime))
             {
-                Debug.Log("atasss");
                 timer.StartTimer(attackSpeed);
                 sync.PlayAnimation("Atk");
                 playerTarget.TakeDamage(GetDamage());
@@ -186,5 +191,14 @@ public class Enemy : Entity
     {
         int val = 1;
         return val;
+    }
+
+    public override void UpdateUI(int hp, int maxHp)
+    {
+        if (localUI != null)
+        {
+            localhpBar.maxValue = maxHp;
+            localhpBar.value = hp;
+        }
     }
 }

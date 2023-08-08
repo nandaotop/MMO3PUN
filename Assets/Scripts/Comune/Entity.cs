@@ -23,6 +23,13 @@ public abstract class Entity : MonoBehaviourPun
     public System.Action OnDeathEvent;
     public int hpMultipler = 2;
     public int manaMultipler = 2;
+    [SerializeField]
+    protected GameObject localUI = null;
+    [SerializeField]
+    protected UnityEngine.UI.Text nameText = null;
+    [SerializeField]
+    protected UnityEngine.UI.Slider localhpBar = null;
+
     void Start()
     {
         Init();

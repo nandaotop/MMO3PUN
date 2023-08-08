@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Player : Entity
 {
@@ -69,6 +70,14 @@ public class Player : Entity
         {
             UIManager.instance.deathPanel.SetActive(true);
         };
+
+        if (view == null)
+        {
+            view = PhotonView.Get(this);
+        }
+
+        view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
+        // localUI.SetActive(false);
     }
 
     public override void Tick()
@@ -163,10 +172,19 @@ public class Player : Entity
         if (photonView.IsMine)
         {
             UIManager.instance.UpdateHP(current, max);
+            if (view == null)
+            {
+                view = PhotonView.Get(this);
+            }
+            view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
         }
-        else
-        {
+    }
 
-        }
+    [PunRPC]
+    public void LocalBarUpdate(string name, int hp, int maxHp)
+    {
+        nameText.text = name;
+        localhpBar.maxValue = maxHp;
+        localhpBar.value = hp;
     }
 }
