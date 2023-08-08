@@ -59,11 +59,12 @@ public class Player : Entity
         controller.sync = sync;
         controller.Init(this);
         OnChangeItem();
+        hp = maxHp;
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
         follow = Instantiate(f, transform.position, transform.rotation);
         follow.Init(transform);
         WorldManager.instance.playerList.Add(transform);
-        UIManager.instance.player = this;
+        UIManager.instance.SetUpPlayer(this);
         OnDeathEvent = () => 
         {
             UIManager.instance.deathPanel.SetActive(true);
@@ -90,6 +91,7 @@ public class Player : Entity
                 manaCounter = second;
                 controller.mana += stats.ManaXsecond();
                 if (controller.mana > stats.Mana) controller.mana = stats.Mana;
+                UIManager.instance.UpdateMana(controller.mana, maxMana);
             }
         }
 
@@ -152,5 +154,17 @@ public class Player : Entity
         int stamina = stats.Stamina + controller.inventory.GetParameter(StaticStrings.stamina);
         int intellect = stats.Intellect + controller.inventory.GetParameter(StaticStrings.intellect);
         CalculateStats(stamina, intellect);
+    }
+
+    public override void UpdateUI()
+    {
+        if (photonView.IsMine)
+        {
+            UIManager.instance.UpdateHP(hp, maxHp);
+        }
+        else
+        {
+
+        }
     }
 }

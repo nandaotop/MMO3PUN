@@ -164,6 +164,7 @@ public class ActionController : MonoBehaviour
             inAction = true;
             sync.PlayAnimation(skill.animName.ToString());
             action.button.SetCountDown();
+            UIManager.instance.UpdateMana(mana, player.maxMana);
         }
     }
 

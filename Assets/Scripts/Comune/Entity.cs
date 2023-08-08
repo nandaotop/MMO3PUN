@@ -72,6 +72,7 @@ public abstract class Entity : MonoBehaviourPun
             isDeath = true;
             sync.IsDead(true);
         }
+        UpdateUI();
     }
 
     [PunRPC]
@@ -98,7 +99,12 @@ public abstract class Entity : MonoBehaviourPun
     {
         this.hp = hp;
         this.maxHp = max;
-        // UpdateUI(this.hp,max);
+        UpdateUI();
+    }
+
+    public virtual void UpdateUI()
+    {
+        
     }
 
     public void CalculateStats(int stamina, int intellect)
