@@ -35,6 +35,7 @@ public class ActionController : MonoBehaviour
     {
         normal, atk, pick, bag, teleport
     }
+    Entity target;
 
     public void Init(Player player)
     {
@@ -172,20 +173,56 @@ public class ActionController : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        bool leftClick = Input.GetMouseButtonDown(0);
+
         if (Physics.Raycast(ray, out hit))
         {
             switch (hit.transform.tag)
             {
                 case StaticStrings.enemy:
                     Cursor.SetCursor(cursorList[(int)Cursors.atk], Vector2.zero, CursorMode.Auto);
+                    if (leftClick)
+                    {
+                        Entity e = hit.transform.GetComponent<Entity>();
+                        SelectTarget(e);
+                    }
                     break;
                 case StaticStrings.teleport:
                     Cursor.SetCursor(cursorList[(int)Cursors.teleport], Vector2.zero, CursorMode.Auto);
+                    break;
+                case StaticStrings.player:
+                    if (hit.transform != this.transform)
+                    {
+                        if (leftClick)
+                        {
+                            Entity e = hit.transform.GetComponent<Entity>();
+                            SelectTarget(e);
+                        }
+                    }
                     break;
                 default:
                     Cursor.SetCursor(cursorList[(int)Cursors.normal], Vector2.zero, CursorMode.Auto);
                     break;
             }
+        }
+        else 
+        {
+            if (leftClick)
+                SelectTarget(null);
+        }
+    }
+
+    void SelectTarget(Entity e)
+    {
+        if (target != null)
+        {
+            target.ShowMarker(false);
+        }
+
+        if (e != null)
+        {
+            target = e;
+            target.ShowMarker(true);
         }
     }
 }

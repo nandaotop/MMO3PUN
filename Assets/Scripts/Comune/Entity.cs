@@ -29,6 +29,8 @@ public abstract class Entity : MonoBehaviourPun
     protected UnityEngine.UI.Text nameText = null;
     [SerializeField]
     protected UnityEngine.UI.Slider localhpBar = null;
+    [SerializeField]
+    GameObject circle = null;
 
     void Start()
     {
@@ -132,5 +134,13 @@ public abstract class Entity : MonoBehaviourPun
     public virtual void Healing(int heal)
     {
 
+    }
+
+    public virtual void ShowMarker(bool val)
+    {
+        if (circle != null)
+        {
+            circle.SetActive(val);
+        }
     }
 }
