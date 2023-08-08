@@ -31,37 +31,52 @@ public class CharacterCreate : MonoBehaviour
     int MaxPlayers = 5;
     string[] files;
 
-    void Start()
+    private void Start()
     {
-        selectedData = null;
-        files = Directory.GetFiles(location).Where(x => !x.Contains(".meta")).ToArray();
         dropDown.onValueChanged.AddListener(SelectCharacter);
-        if (files.Length < 1)
+        selectedData = null;
+        field.onSubmit.AddListener(delegate
+        {
+            selectedData.characterName = field.text;
+            stats.SetUp(selectedData);
+        }
+        );
+        //
+        if(!Directory.Exists(location))
+        {
+            Directory.CreateDirectory(location);
+            startButton.SetActive(false);
+            selectedData = new SaveData();
+            selectedData.stat = GetStat(CharacterClass.warrior);
+            selectedData.characterName = "Guest";
+            stats.SetUp(selectedData);
+            return;
+        }
+        //
+        files = Directory.GetFiles(location).Where(x=>!x.Contains(".meta")).ToArray();
+        if(files.Length<1)
         {
             startButton.SetActive(false);
             selectedData = new SaveData();
             selectedData.stat = GetStat(CharacterClass.warrior);
             selectedData.characterName = "Guest";
-             
         }
-        else 
+        else
         {
             int id = 0;
-            foreach (var f in files)
+            foreach(var f in files)
             {
-                // Debug.Log(Path.GetFileName(f));
                 string name = Path.GetFileName(f);
                 SaveData data = SaveManager.LoadData<SaveData>(name);
                 allData.Add(data);
-                var button = Instantiate(charButton, charParent);
-                button.Init(this, id, name);
-                id ++;
+                var button= Instantiate(charButton, charParent);
+                button.Init(this, id,name);
+                id++;
                 buttons.Add(button);
             }
             Select(0);
         }
-
-        if (files.Length >= MaxPlayers)
+        if(files.Length>=MaxPlayers)
         {
             createButton.SetActive(false);
         }

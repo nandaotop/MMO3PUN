@@ -128,4 +128,9 @@ public abstract class Entity : MonoBehaviourPun
     {
         
     }
+
+    public virtual void Healing(int heal)
+    {
+
+    }
 }

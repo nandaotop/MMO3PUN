@@ -76,7 +76,10 @@ public class Player : Entity
             view = PhotonView.Get(this);
         }
 
-        view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
+        if (Photon.Pun.PhotonNetwork.IsConnected)
+        {
+            view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
+        }
         // localUI.SetActive(false);
     }
 
@@ -176,7 +179,8 @@ public class Player : Entity
             {
                 view = PhotonView.Get(this);
             }
-            view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
+            if (Photon.Pun.PhotonNetwork.IsConnected)
+                view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
         }
     }
 
@@ -186,5 +190,20 @@ public class Player : Entity
         nameText.text = name;
         localhpBar.maxValue = maxHp;
         localhpBar.value = hp;
+    }
+
+    public override void Healing(int heal)
+    {
+        if (isDeath()) return;
+
+        hp += heal;
+        if (heal > maxHp) hp = maxHp;
+        if (view == null)
+        {
+            view = PhotonView.Get(this);
+        }
+        
+        if (Photon.Pun.PhotonNetwork.IsConnected)
+            view.RPC("SyncronizeStat", RpcTarget.All, hp, maxHp);
     }
 }
