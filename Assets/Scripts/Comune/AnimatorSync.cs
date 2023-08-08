@@ -5,17 +5,19 @@ using Photon.Pun;
 
 public class AnimatorSync : MonoBehaviourPun
 {
-    Animator anim;
+    [HideInInspector]
+    public Animator anim;
     PhotonView view;
-
-    // Update is called once per frame
+    public System.Action OnEndAnimationEvent = null;
+    Skill skill;
+    Entity owner, target;
     public void Init()
     {
         anim = GetComponent<Animator>();
         view = PhotonView.Get(this);
     }
 
-    public void Move(float x, float y)
+    public void Move(float x,float y)
     {
         anim.SetFloat("x", x);
         anim.SetFloat("y", y);
@@ -25,7 +27,7 @@ public class AnimatorSync : MonoBehaviourPun
     {
         anim.SetBool(StaticStrings.move, val);
     }
-
+    
     public void IsDead(bool val)
     {
         anim.SetBool(StaticStrings.dead, val);
@@ -36,23 +38,27 @@ public class AnimatorSync : MonoBehaviourPun
     {
         anim.Play(animName);
     }
-
     public void PlayAnimation(string animName)
     {
-        if (anim == null)
+        if(PhotonNetwork.IsConnected)
         {
-            Debug.LogError("Animator component is missing!");
-            return;
-        }
-        
-        if (PhotonNetwork.IsConnected)
-        {
-            if (view == null) view = PhotonView.Get(this);
+            if(view==null) view = PhotonView.Get(this);
             view.RPC("SyncronizeAnimation", RpcTarget.All, animName);
         }
         else
         {
-            anim.Play(animName);
+            if (anim != null)
+                anim.Play(animName);
         }
     }
+
+    public void OnEndAnimation()
+    {
+        if(OnEndAnimationEvent!=null)
+        {
+            OnEndAnimationEvent.Invoke();
+        }
+    }
+
+
 }

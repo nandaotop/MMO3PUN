@@ -16,12 +16,16 @@ public class Player : Entity
     const float second = 1;
     float manaCounter = 1;
     public SaveData data = new SaveData();
-    // public bool debug = false;
     public bool CanMove = true;
     [SerializeField]
     GameObject uiMan = null;
     [SerializeField]
     CharacterClass debugClass = CharacterClass.warrior;
+        
+    public Inventory GetInventory()
+    {
+        return controller.inventory;
+    }
 
     public override void Init()
     {

@@ -15,24 +15,24 @@ public class Skill : ScriptableObject
     public float activationTime = 5;
     public float counter;
     // public float skillRange = 15;
-    // public SpellTarget spellTarget=SpellTarget.enemy;
-    // public int spellPower = 1;
-    // public float radius = 5;
-    // // public Spell spellPrefab = null;
+    public SpellTarget spellTarget = SpellTarget.enemy;
+    public int spellPower = 1;
+    public float radius = 5;
+    public Spell spellPrefab = null;
     // public Vector3 effectOffset = new Vector3(0, -1, 0);
     // public string effectName = "BlackAura";
 
     
 }
 
-// public enum SpellTarget
-// {
-//     self,
-//     friend,
-//     enemy,
-//     friendsArea,
-//     enemiesArea
-// }
+public enum SpellTarget
+{
+    self,
+    friend,
+    enemy,
+    friendsArea,
+    enemiesArea
+}
 
 public enum AnimName
 {
@@ -46,7 +46,7 @@ public enum AnimName
     // Buff,
     // MeeleeAttack_OneHanded,
     // MeeleeAttack_TwoHanded,
-    // SpellCast,
+    SpellCast,
     // SpinLoop_TwoHanded,
     // SpinAttack_TwoWeapons,
     // MiningLoop,
