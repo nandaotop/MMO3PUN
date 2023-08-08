@@ -103,7 +103,7 @@ public class ActionController : MonoBehaviour
 
     void AutoAttack(float delta)
     {
-        if (enemyTarget == null && enemyTarget.isDeath)
+        if (enemyTarget == null && enemyTarget.isDeath())
         {
             autoMove = false;
             enemyTarget = null;

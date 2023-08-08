@@ -99,7 +99,7 @@ public class Player : Entity
 
         if (!CanMove) return;
         UseCamera();
-        if (isDeath) return;
+        if (isDeath()) return;
 
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
@@ -133,9 +133,11 @@ public class Player : Entity
     public void Respawn()
     {
         transform.position = WorldManager.instance.respawnPoint.position;
-        isDeath = false;
         hp = stats.HP;
         sync.IsDead(false);
+
+        UIManager.instance.UpdateHP(hp, maxHp);
+        
         if (Photon.Pun.PhotonNetwork.IsConnected)
         {
             view.RPC("SyncronizeStat", Photon.Pun.RpcTarget.All, hp,maxHp);
@@ -156,11 +158,11 @@ public class Player : Entity
         CalculateStats(stamina, intellect);
     }
 
-    public override void UpdateUI()
+    public override void UpdateUI(int current, int max)
     {
         if (photonView.IsMine)
         {
-            UIManager.instance.UpdateHP(hp, maxHp);
+            UIManager.instance.UpdateHP(current, max);
         }
         else
         {

@@ -46,6 +46,7 @@ public class Enemy : Entity
 
     public override void Tick()
     {
+        if (isDeath()) return;
         delta = Time.deltaTime;
         FoundTarget();
         if (staticEnemy) return;
@@ -76,7 +77,7 @@ public class Enemy : Entity
                 var p = c.GetComponent<Player>();
                 if (p != null)
                 {
-                    if (!p.isDeath)
+                    if (!p.isDeath())
                     {
                         playerTarget = p;
                         estate = EnemyState.Combat;
@@ -88,7 +89,7 @@ public class Enemy : Entity
     
     void Combat()
     {
-        if (playerTarget == null || playerTarget.isDeath)
+        if (playerTarget == null || playerTarget.isDeath() || isDeath())
         {
             estate = EnemyState.patrol;
             playerTarget = null;
@@ -171,9 +172,7 @@ public class Enemy : Entity
 
     void Respawn()
     {
-        Debug.Log("respawn");
         hp = stats.HP;
-        isDeath = false;
         sync.IsDead(false);
         transform.position = startPosition;
     }

@@ -9,7 +9,10 @@ public abstract class Entity : MonoBehaviourPun
     public Rigidbody rb;
     public float moveSpeed = 3;
     public float moveMultipler = 1;
-    public bool isDeath;
+    public bool isDeath()
+    {
+        return (hp <= 0);
+    }
     public Stats stats = new Stats();
     [SerializeField]
     protected int hp = 10; // TODO: utilizar float ao fim do curso
@@ -64,34 +67,40 @@ public abstract class Entity : MonoBehaviourPun
     
     public void DebugDamage(int dmg)
     {
-        hp -= dmg;
-        Debug.Log(hp);
-        if (hp <= 0)
+        if (photonView.IsMine)
         {
-            hp = 0;
-            isDeath = true;
-            sync.IsDead(true);
+            hp -= dmg;
+            if (hp <= 0)
+            {
+                hp = 0;
+                sync.IsDead(true);
+                if (OnDeathEvent != null)
+                {
+                    OnDeathEvent.Invoke();
+                }
+            }
+            UpdateUI(hp, maxHp);
         }
-        UpdateUI();
     }
 
     [PunRPC]
     public void DealDamage(int dmg)
     {
-        hp -= dmg;
-        Debug.Log(hp);
-        if (hp <= 0)
+        if (photonView.IsMine)
         {
-            hp = 0;
-            isDeath = true;
-            sync.IsDead(true);
-            if (OnDeathEvent != null)
+            hp -= dmg;
+            if (hp <= 0)
             {
-                OnDeathEvent.Invoke();
+                hp = 0;
+                sync.IsDead(true);
+                if (OnDeathEvent != null)
+                {
+                    OnDeathEvent.Invoke();
+                }
             }
-        }
 
-        view.RPC("SyncronizeStat", RpcTarget.All, hp, maxHp);
+            view.RPC("SyncronizeStat", RpcTarget.All, hp, maxHp);
+        }
     }
 
     [PunRPC]
@@ -99,17 +108,17 @@ public abstract class Entity : MonoBehaviourPun
     {
         this.hp = hp;
         this.maxHp = max;
-        UpdateUI();
-    }
-
-    public virtual void UpdateUI()
-    {
-        
+        UpdateUI(this.hp, max);
     }
 
     public void CalculateStats(int stamina, int intellect)
     {
         maxHp = stamina * hpMultipler;
         maxMana = intellect * manaMultipler;
+    }
+
+    public virtual void UpdateUI(int hp, int maxHp)
+    {
+        
     }
 }
