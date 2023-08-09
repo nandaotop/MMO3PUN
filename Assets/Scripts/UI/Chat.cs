@@ -22,21 +22,17 @@ public class Chat : MonoBehaviour,IChatClientListener
     Transform content = null;
     public string userID = "";
 
-    private void Start() {
-        SetUP("Test");
-    }
-
     private void Update()
     {
-        // if (client == null) return;
+        if (client == null) return;
         client.Service();
     }
     public void SetUP(string userID)
     {
-        // this.userID = userID;
+        this.userID = userID;
         client = new ChatClient(this, ConnectionProtocol.Tcp);
         client.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
-            PhotonNetwork.AppVersion, new AuthenticationValues(userID));
+            PhotonNetwork.AppVersion, new AuthenticationValues(this.userID));
     }
 
     public void Send()

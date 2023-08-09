@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 1
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: sa
     Server: 
     Port: 0
     ProxyServer: 
@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: sa
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -36,14 +36,19 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
-  - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - SyncronizeAnimation
-  - DealDamage
   - SyncronizeStat
-  - SpawnPrefabRpc
+  - DealDamage
+  - SyncronizeAnimation
+  - UpdateRPC
+  - SetUpName
+  - SetNameRPC
+  - BarRPC
+  - UpdateBar
   - LocalBarUpdate
+  - SpawnEffectRpc
+  - SpawnPrefabRpc
+  - RequestRpc
+  - SpellTargetRpc
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0

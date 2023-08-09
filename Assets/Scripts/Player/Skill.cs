@@ -5,24 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="NewSkill",menuName ="ScriptableObject/Skills")]
 public class Skill : ScriptableObject
 {
-    public AnimName animName = AnimName.atk;
-    // public AnimName animName=AnimName.SpellCast;
+    public AnimName animName=AnimName.atk;
     public Sprite sprite;
-    // public int requireLevel = 3;
     public int cost = 2;
-    // public string desctiption = "";
     public float countDown = 3;
     public float activationTime = 5;
-    public float counter;
-    // public float skillRange = 15;
-    public SpellTarget spellTarget = SpellTarget.enemy;
+    public float skillRange = 15;
+    public SpellTarget spellTarget=SpellTarget.enemy;
     public int spellPower = 1;
     public float radius = 5;
     public Spell spellPrefab = null;
-    // public Vector3 effectOffset = new Vector3(0, -1, 0);
-    // public string effectName = "BlackAura";
-
-    
+    public Vector3 effectOffset = new Vector3(0, -1, 0);
+    public string effectName = "BlackAura";
 }
 
 public enum SpellTarget
@@ -37,18 +31,12 @@ public enum SpellTarget
 public enum AnimName
 {
     atk,
-    // AtkRight,
-    // AtkLeft,
-    // AtkDouble,
-    // Unarmed,
     BowShot,
-    // BlockingLoop,
-    // Buff,
-    // MeeleeAttack_OneHanded,
-    // MeeleeAttack_TwoHanded,
+    BlockingLoop,
+    Buff,
+    MeeleeAttack_OneHanded,
+    MeeleeAttack_TwoHanded,
     SpellCast,
-    // SpinLoop_TwoHanded,
-    // SpinAttack_TwoWeapons,
-    // MiningLoop,
-    // Gathering
+    SpinLoop_TwoHanded,
+    SpinAttack_TwoWeapons
 }

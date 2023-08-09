@@ -9,10 +9,6 @@ public class Equip : Item
     public Rarety rarety=Rarety.comune;
     public int stamina, strenght, intellect, agility;
     public int armor;
-    // public GameObject model;
-
-    // public Vector3 leftPos, rightPos;
-    // public Vector3 leftRot, rightRot;
 }
 
 public enum Rarety
@@ -25,5 +21,5 @@ public enum Rarety
 }
 public enum EquipType
 {
-    head, body, leg, shoes, belt, shoulder, leftWeapon, rightWeapon
+    head, body, leg, shoes, belt, shoulder, weapon
 }

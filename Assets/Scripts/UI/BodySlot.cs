@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class BodySlot : MonoBehaviour
 {
     [SerializeField]
@@ -11,12 +10,9 @@ public class BodySlot : MonoBehaviour
     EquipType type = EquipType.head;
     [SerializeField]
     int id = 0;
-
-    public bool SetUp(Equip e, Inventory inventory)
+    public bool SetUp(Equip e,Inventory inventory)
     {
         if (e.type != type) return false;
-        Debug.Log(e.sprite);
-        Debug.Log(e);
         inventory.SetEquip(e, id);
         icon.sprite = e.sprite;
         border.color = Helper.GetColor(e.rarety);

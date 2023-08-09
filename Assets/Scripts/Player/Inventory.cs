@@ -4,17 +4,16 @@ using UnityEngine;
 using System.Linq;
 
 [System.Serializable]
-public class Inventory
+public class Inventory 
 {
-    public List<Pair<Skill, int>> equippedSKills = new List<Pair<Skill, int>>();
+
+    public List<Pair<Skill, int>> equippedSkill = new List<Pair<Skill, int>>();
     public List<Skill> skills = new List<Skill>();
     public List<Item> items = new List<Item>();
-    public Equip head, body, leg, shoes, belt, shoulder;
+    public Equip head, body, leg, shoes,belt,shoulder;
     public Equip leftWeapon, rightWeapon;
     public Equip lastEquip;
     public int coin = 0;
-    Player player;
-
     public List<Equip> AllEquip()
     {
         List<Equip> equipList = new List<Equip>();
@@ -26,14 +25,15 @@ public class Inventory
         equipList.Add(shoulder);
         equipList.Add(leftWeapon);
         equipList.Add(rightWeapon);
+
         return equipList;
     }
-
+    Player player;
     public int GetParameter(string s)
     {
         var equip = AllEquip().Where(x => x != null);
         int val = 0;
-        foreach (var e in equip)
+        foreach(var e in equip)
         {
             switch (s)
             {
@@ -65,10 +65,10 @@ public class Inventory
         SaveData data = player.data;
         foreach (var d in data.equip)
         {
-            var item = GetItem<Item>(allItems, d.Key);
-            if (item != null)
+            var item = GetItem<Item>(allItems, d.key);
+            if(item!=null)
             {
-                SetEquip(item as Equip, d.value);
+                SetEquip(item as Equip,d.value);
             }
         }
         foreach (var d in data.items)
@@ -89,19 +89,18 @@ public class Inventory
         }
         foreach (var d in data.equipSkills)
         {
-            var skill = GetItem<Skill>(allSkills, d.Key);
+            var skill = GetItem<Skill>(allSkills, d.key);
             if (skill != null)
             {
-                var pair = new Pair<Skill, int>() {Key = skill, value = d.value};
-                equippedSKills.Add(pair);
+                var pair = new Pair<Skill, int>() { key = skill, value = d.value };
+                equippedSkill.Add(pair);
             }
         }
     }
 
-    public void SetEquip(Equip equip, int id = 0)
+    public void SetEquip(Equip equip,int id=0)
     {
-        if (equip == null) return;
-
+        //if (equip == null) return;
         switch (equip.type)
         {
             case EquipType.head:
@@ -128,42 +127,43 @@ public class Inventory
                 lastEquip = shoulder;
                 shoulder = equip;
                 break;
-            case EquipType.leftWeapon:
-                lastEquip = leftWeapon;
-                leftWeapon = equip;
-                break;
-            case EquipType.rightWeapon:
-                lastEquip = rightWeapon;
-                rightWeapon = equip;
+            case EquipType.weapon:
+                if(id<7)
+                {
+                    lastEquip = leftWeapon;
+                    leftWeapon = equip;
+                }
+                else
+                {
+                    lastEquip = rightWeapon;
+                    rightWeapon = equip;
+                }
                 break;
         }
-
-        if (lastEquip != null)
-        { 
+        if(lastEquip!=null)
+        {
             items.Add(lastEquip);
             lastEquip = null;
         }
-
         player.OnChangeItem();
     }
 
     public void RemoveItem(Equip e)
     {
-        foreach (var i in items)
+        foreach(var i in items)
         {
-            if (i.name == e.name)
+            if(i.name==e.name)
             {
                 items.Remove(i);
                 break;
             }
         }
     }
-
-    T GetItem<T>(T[] arr, string s) where T: ScriptableObject
+    T GetItem<T>(T[] arr,string s) where T: ScriptableObject
     {
-        foreach (var a in arr)
+        foreach(var a in arr)
         {
-            if (a.name == s)
+            if(a.name==s)
             {
                 return a;
             }
@@ -171,24 +171,25 @@ public class Inventory
         return null;
     }
 
-    public void UpdateSKill(ActionController controller)
+    public void UpdateSkill(ActionController controller)
     {
-        equippedSKills.Clear();
-        for (int i = 0; i < controller.actions.Count; i++)
+        equippedSkill.Clear();
+        for (int i=0;i<controller.actions.Count;i++)
         {
             var skill = controller.actions[i].skill;
-            if (skills != null)
+            if (skill!=null)
             {
-                var pair = new Pair<Skill, int>() {Key = skill, value = i};
-                equippedSKills.Add(pair);
+                var pair = new Pair<Skill, int>() { key = skill, value = i };
+                equippedSkill.Add(pair);
             }
         }
     }
 }
 
+
 [System.Serializable]
-public class Pair<T1, T2>
+public class Pair<T1,T2>
 {
-    public T1 Key;
+    public T1 key;
     public T2 value;
 }

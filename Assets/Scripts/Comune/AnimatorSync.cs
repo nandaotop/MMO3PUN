@@ -5,12 +5,9 @@ using Photon.Pun;
 
 public class AnimatorSync : MonoBehaviourPun
 {
-    [HideInInspector]
-    public Animator anim;
+    Animator anim;
     PhotonView view;
     public System.Action OnEndAnimationEvent = null;
-    Skill skill;
-    Entity owner, target;
     public void Init()
     {
         anim = GetComponent<Animator>();
@@ -47,8 +44,7 @@ public class AnimatorSync : MonoBehaviourPun
         }
         else
         {
-            if (anim != null)
-                anim.Play(animName);
+            anim.Play(animName);
         }
     }
 
@@ -59,6 +55,4 @@ public class AnimatorSync : MonoBehaviourPun
             OnEndAnimationEvent.Invoke();
         }
     }
-
-
 }

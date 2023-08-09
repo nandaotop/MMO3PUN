@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class CharacterStatsUI : MonoBehaviour
 {
     public Text Name = null, Hp = null, Lv = null;
     [SerializeField]
-    Text Atk = null, Def = null, Mana = null, Class = null;
+    Text Atk = null, Def = null,Class=null;
     [SerializeField]
     GameObject[] slots = null;
 
@@ -20,31 +19,26 @@ public class CharacterStatsUI : MonoBehaviour
         {
             i.transform.GetChild(0).GetComponent<Image>().enabled = false;
         }
-
-        if (data.equip.Count > 0)
+        if(data.equip.Count>0)
         {
-            for (int i = 0; i < data.equip.Count; i++)
+            for(int i=0;i<data.equip.Count;i++)
             {
-                Equip e = Resources.Load<Equip>("Items/" + data.equip[i]);
-                if (e != null)
+                Equip e = Resources.Load<Equip>("Items/"+ data.equip[i]);
+                if(e!=null)
                     SetEquip(e.sprite, i);
             }
         }
     }
-
     public void SetUp(Stats stat)
     {
-        
-        Hp.text = "Hp: " + stat.HP;
+        Hp.text = "Stamina: " + stat.Stamina;
         Lv.text = "Lv: " + stat.Level;
-        Atk.text = "Atk: " + stat.PhysicalAttack;
-        Def.text = "Def: " + stat.PhysicalDefense;
-        Mana.text = "Mana: " + stat.Mana;
+        Atk.text = "Strenght: " + stat.Strenght;
+        Def.text = "Agility: " + stat.Agility;
         Class.text = "Class: " + stat.charClass.ToString();
-
     }
 
-    void SetEquip(Sprite s, int index)
+    void SetEquip(Sprite s,int index)
     {
         var img = slots[index].transform.GetChild(0).GetComponent<Image>();
         img.sprite = s;

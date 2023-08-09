@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bullet
   - Enemy
+  - EquipSlot
   - teleport
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -14,10 +15,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Floor
   - Player
   - Enemy
-  - 
+  - Floor
+  - Other
   - 
   - 
   - 

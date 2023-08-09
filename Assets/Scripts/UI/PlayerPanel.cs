@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-
 public class PlayerPanel : MonoBehaviour
 {
     [SerializeField]
@@ -16,7 +15,7 @@ public class PlayerPanel : MonoBehaviour
     Transform content = null;
     string[] buttonTypes = new string[]
     {
-        "head","body","leg","shoes","belt","shoulder","leftWeapon","rightWeapon",
+        "head", "body", "leg", "shoes", "belt", "shoulder","weapon"
     };
 
     [SerializeField]
@@ -25,47 +24,46 @@ public class PlayerPanel : MonoBehaviour
     Text manaText = null, agilityText = null, intellectText = null;
     [SerializeField]
     Text armorText = null, coinText = null;
-
     Player player;
     [SerializeField]
-    DiffentWriter writer = null;
+    DiffentWriter writer=null;
 
-    // [SerializeField]
-    // Text itemStamina = null;
-    // [SerializeField]
-    // Text itemStrenght = null,  itemIntellect = null;
-    // [SerializeField]
-    // Text itemName = null, itemAgility = null, itemArmor = null;
+    [Header("Current Item")]
+    [SerializeField]
+    Text itemStamina = null;
+    [SerializeField]
+    Text itemStrenght = null, itemIntellect = null;
+    [SerializeField]
+    Text itemName=null, itemAgility=null, itemArmor = null;
 
-    public void Init(Player p, Inventory inventory)
+    public void Init(Player p,Inventory inventory)
     {
         player = p;
         this.inventory = inventory;
-
-        for (int i = 0; i < buttonList.Length; i++)
+        for(int i=0;i<buttonList.Length;i++)
         {
-            buttonList[i].gameObject.name = buttonTypes[i];
+            buttonList[i].gameObject.name= buttonTypes[i];
             buttonList[i].GetComponentInChildren<Text>().text = buttonTypes[i];
             int id = i;
             buttonList[i].onClick.AddListener(delegate
             {
                 OnPressButton(id);
-            });
+            }
+            );
         }
+        ShowStats();
     }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             ClosePanel();
         }
     }
-
     public void OnPressButton(int id)
     {
         EquipType t = EquipType.head;
-        switch (id)
+        switch(id)
         {
             case 1:
                 t = EquipType.body;
@@ -83,10 +81,7 @@ public class PlayerPanel : MonoBehaviour
                 t = EquipType.shoulder;
                 break;
             case 6:
-                t = EquipType.leftWeapon;
-                break;
-            case 7:
-                t = EquipType.rightWeapon;
+                t = EquipType.weapon;
                 break;
         }
         ShowSlots(t);
@@ -94,40 +89,38 @@ public class PlayerPanel : MonoBehaviour
 
     public void ShowSlots(EquipType t)
     {
-        foreach (var obj in currentSlots)
+        foreach(var obj in currentSlots)
         {
             Destroy(obj);
         }
         currentSlots.Clear();
         List<Equip> list = new List<Equip>();
-        foreach (var item in inventory.items)
+        foreach(var item in inventory.items)
         {
-            if (item is Equip)
+            if(item is Equip)
             {
                 list.Add(item as Equip);
             }
         }
-        var arr = list.Where(x => x.type == t).ToArray();
-        // var arr = list.ToArray();
-        foreach (var element in arr)
+        var arr = list.Where(x=>x.type==t).ToArray();
+        foreach(var element in arr)
         {
-            EquipSlot newSlot = Instantiate(slot, content);
+            EquipSlot newSlot = Instantiate(slot,content);
             currentSlots.Add(newSlot.gameObject);
-            newSlot.Init(element, this);
+            newSlot.Init(element,this);
         }
         ShowStats();
     }
 
     public void ShowStats()
     {
-        Stats s = player.stats;
+        Stats s = player.stats();
         int stamina, strenght, intellect, agility, armor;
-
         stamina = GetVal(inventory.GetParameter(StaticStrings.stamina), s.Stamina);
         strenght = GetVal(inventory.GetParameter(StaticStrings.strenght), s.Strenght);
-        intellect = GetVal(inventory.GetParameter(StaticStrings.intellect), s.Intellect);
-        agility = GetVal(inventory.GetParameter(StaticStrings.agility), s.AgilityInt);
-        armor = GetVal(inventory.GetParameter(StaticStrings.armor), s.Armor);
+        intellect= GetVal(inventory.GetParameter(StaticStrings.intellect), s.Intellect);
+        agility = GetVal(inventory.GetParameter(StaticStrings.agility), s.Agility);
+        armor = GetVal(inventory.GetParameter(StaticStrings.armor));
 
         staminaText.text = stamina.ToString();
         strenghtText.text = strenght.ToString();
@@ -135,8 +128,10 @@ public class PlayerPanel : MonoBehaviour
         agilityText.text = agility.ToString();
         armorText.text = armor.ToString();
 
+        //hp
         hpText.text = player.maxHp.ToString();
         manaText.text = player.maxMana.ToString();
+               
     }
 
     public void ShowDifference(Equip newEquip)
@@ -145,29 +140,26 @@ public class PlayerPanel : MonoBehaviour
         foreach (var item in inventory.AllEquip())
         {
             if (item == null) continue;
-            if (item.type == newEquip.type)
+            if(item.type==newEquip.type)
             {
                 oldEquip = item;
                 break;
             }
         }
+        int localStam = 0, localStrenght = 0, localAgility = 0, localIntellect = 0, localArmor = 0;
 
-        int localStam = 0, localStrenght = 0, localAgility = 0, localIntellect = 0,localArmor = 0;
-
-        if (oldEquip != null)
+        if(oldEquip!=null)
         {
             localStam = newEquip.stamina - oldEquip.stamina;
             localStrenght = newEquip.strenght - oldEquip.strenght;
             localAgility = newEquip.agility - oldEquip.agility;
             localIntellect = newEquip.intellect - oldEquip.intellect;
             localArmor = newEquip.armor - oldEquip.armor;
-
             writer.ShowDiffence(localStam, StaticStrings.stamina);
             writer.ShowDiffence(localStrenght, StaticStrings.strenght);
             writer.ShowDiffence(localAgility, StaticStrings.agility);
             writer.ShowDiffence(localIntellect, StaticStrings.intellect);
             writer.ShowDiffence(localArmor, StaticStrings.armor);
-
 
             writer.ShowDiffence(player.hpMultipler * localStam, StaticStrings.hp);
             writer.ShowDiffence(player.manaMultipler * localIntellect, StaticStrings.mana);
@@ -180,33 +172,33 @@ public class PlayerPanel : MonoBehaviour
             writer.ShowDiffence(newEquip.intellect, StaticStrings.intellect);
             writer.ShowDiffence(newEquip.armor, StaticStrings.armor);
             
-            writer.ShowDiffence(player.hpMultipler * newEquip.stamina, StaticStrings.hp);
-            writer.ShowDiffence(player.manaMultipler * newEquip.intellect, StaticStrings.mana);
+            writer.ShowDiffence(player.hpMultipler* newEquip.stamina, StaticStrings.hp);
+            writer.ShowDiffence(player.manaMultipler* newEquip.intellect, StaticStrings.mana);
         }
 
-        // ShowCurrentItem(newEquip);
+        ShowCurrentItem(newEquip);
     }
 
-    // void ShowCurrentItem(Equip e)
-    // {
-    //     itemName.text = e.name;
-    //     itemStamina.text = "Stamina: " + e.stamina;
-    //     itemStrenght.text = "Strenght: " + e.strenght;
-    //     itemAgility.text = "Agility: " + e.agility;
-    //     itemIntellect.text = "Intellect: " + e.intellect;
-    //     itemArmor.text = "Armor: " + e.armor;
-    // }
+    void ShowCurrentItem(Equip e)
+    {
+        itemName.text = e.name;
+        itemStamina.text = "Stamina: " + e.stamina;
+        itemStrenght.text = "Strenght: " + e.strenght;
+        itemAgility.text = "Agility: " + e.agility;
+        itemIntellect.text = "intellect: " + e.intellect;
+        itemArmor.text = "Armor: " + e.armor;
+    }
 
     int GetVal(params int[] values)
     {
         var total = 0;
-        foreach (var v in values)
+        foreach(var v in values)
         {
             total += v;
         }
         return total;
     }
-
+    
     public void ClosePanel()
     {
         player.CanMove = true;

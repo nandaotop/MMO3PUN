@@ -14,17 +14,20 @@ public class Player : Entity
     float minZoom = 10, maxZoom = 120;
     ActionController controller;
     const float second = 1;
-    float manaCounter = 1;
+    float manaCounter=1;
     public SaveData data = new SaveData();
     public bool CanMove = true;
     [SerializeField]
     GameObject uiMan = null;
     [SerializeField]
     CharacterClass debugClass = CharacterClass.warrior;
-        
     public Inventory GetInventory()
     {
         return controller.inventory;
+    }
+    public Stats stats()
+    {
+        return data.stat;
     }
 
     public override void Init()
@@ -36,87 +39,71 @@ public class Player : Entity
         {
             Instantiate(uiMan);
         }
-
         data = CharacterCreate.selectedData;
         if (data == null)
         {
             data = new SaveData();
             data.stat = CharacterCreate.GetStat(debugClass);
-            data.characterName = "Debug";
+            data.characterName = "Gustav";
         }
-
-        // data = SaveManager.LoadData<SaveData>(data.characterName);
-
         controller = GetComponent<ActionController>();
         controller.sync = sync;
         controller.Init(this);
         OnChangeItem();
         hp = maxHp;
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
-        follow = Instantiate(f, transform.position, transform.rotation);
+        follow= Instantiate(f, transform.position, transform.rotation);
         follow.Init(transform);
         WorldManager.instance.playerList.Add(transform);
         UIManager.instance.SetUpPlayer(this);
-        OnDeathEvent = () => 
-        {
-            UIManager.instance.deathPanel.SetActive(true);
-        };
-
+        OnDeathEvent = () =>
+          {
+              UIManager.instance.deathPanel.SetActive(true);
+          };
         if (view == null)
         {
             view = PhotonView.Get(this);
         }
-
-        if (Photon.Pun.PhotonNetwork.IsConnected)
+        if(Photon.Pun.PhotonNetwork.IsConnected)
         {
-            view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
+            view.RPC("LocalBarUpdate", RpcTarget.AllBuffered, data.characterName, hp, maxHp);
         }
-        // localUI.SetActive(false);
+        localUI.SetActive(false);
     }
 
     public override void Tick()
     {
-        // if (Input.GetKeyDown(KeyCode.P))
-        // {
-        //     SaveManager.SaveData(data.characterName, data);
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.L))
-        // {
-        //     data = SaveManager.LoadData<SaveData>(data.characterName);
-        // }
-
-        if (controller.mana < stats.Mana)
+        if(controller.mana < maxMana)
         {
             manaCounter -= Time.deltaTime;
-            if (manaCounter <= 0)
+            if(manaCounter<=0)
             {
                 manaCounter = second;
-                controller.mana += stats.ManaXsecond();
-                if (controller.mana > stats.Mana) controller.mana = stats.Mana;
+                controller.mana += stats().manaXsecond;
+                if (controller.mana > maxMana) controller.mana = maxMana;
                 UIManager.instance.UpdateMana(controller.mana, maxMana);
             }
         }
-
         controller.MouseLeft();
-
-        if (!CanMove) return;
+        if(!CanMove)
+        {
+            return;
+        }
         UseCamera();
         if (isDeath()) return;
-
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw(StaticStrings.horizontal);
+        float y = Input.GetAxisRaw(StaticStrings.vertical);
         Vector3 move = (transform.right * x) + (transform.forward * y);
         move *= Time.deltaTime * moveMultipler * moveSpeed;
         move.y = rb.velocity.y;
         rb.velocity = move;
         sync.Move(x, y);
-        controller.Tick(follow.transform, x, y);
+        controller.Tick(follow.transform,x,y);
     }
 
     void UseCamera()
     {
-        float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+        float scroll = Input.GetAxisRaw(StaticStrings.scroll);
         if (scroll != 0)
         {
             float val = scrollAmount * scroll;
@@ -124,77 +111,111 @@ public class Player : Entity
             val = Mathf.Clamp(val, minZoom, maxZoom);
             follow.cam.fieldOfView = val;
         }
-        if (Input.GetMouseButton(1))
+        if(Input.GetMouseButton(0))
         {
-            float x = Input.GetAxisRaw("Mouse X");
+            float x = Input.GetAxisRaw(StaticStrings.mouseX);
             Vector3 rot = follow.transform.rotation.eulerAngles;
             follow.transform.rotation = Quaternion.Euler(rot.x, rot.y + x * rotSpeed, rot.z);
+
         }
-        
     }
 
-    public void Respawn()
+    
+    public void Respawn(bool inPlace=false)
     {
-        transform.position = WorldManager.instance.respawnPoint.position;
-        hp = stats.HP;
+        if(inPlace==false)
+        {
+            transform.position = WorldManager.instance.respawnPoint.position;
+        }
+        hp = maxHp;
         sync.IsDead(false);
-
         UIManager.instance.UpdateHP(hp, maxHp);
-        
-        if (Photon.Pun.PhotonNetwork.IsConnected)
+        if(Photon.Pun.PhotonNetwork.IsConnected)
         {
             view.RPC("SyncronizeStat", Photon.Pun.RpcTarget.All, hp,maxHp);
         }
+        WorldManager.instance.SpawnEffect(Effects.aura, transform.position + new Vector3(0, -1, 0), new Vector3(-90, 0, 0));
     }
-
+    
+    public void OnChangeItem()
+    {
+        int stamina = stats().Stamina + controller.inventory.GetParameter(StaticStrings.stamina);
+        int intellect=stats().Intellect+ controller.inventory.GetParameter(StaticStrings.intellect);
+        CalculateStats(stamina,intellect);
+        if(hp>maxHp)
+        {
+            hp = maxHp;
+        }
+        if(controller.mana>maxHp)
+        {
+            controller.mana = maxMana;
+        }
+    }
     public void LockPlayer()
     {
         CanMove = false;
         rb.velocity = Vector3.zero;
         sync.Move(0, 0);
     }
-
-    public void OnChangeItem()
-    {
-        int stamina = stats.Stamina + controller.inventory.GetParameter(StaticStrings.stamina);
-        int intellect = stats.Intellect + controller.inventory.GetParameter(StaticStrings.intellect);
-        CalculateStats(stamina, intellect);
-    }
-
-    public override void UpdateUI(int current, int max)
+    public override void UpdateUI(int current,int max)
     {
         if (photonView.IsMine)
         {
             UIManager.instance.UpdateHP(current, max);
-            if (view == null)
+            if(view==null)
             {
                 view = PhotonView.Get(this);
             }
             if (Photon.Pun.PhotonNetwork.IsConnected)
-                view.RPC("LocalBarUpdate", RpcTarget.All, data.characterName, hp, maxHp);
+                view.RPC("LocalBarUpdate", RpcTarget.All,data.characterName,hp,maxHp);
         }
     }
 
     [PunRPC]
-    public void LocalBarUpdate(string name, int hp, int maxHp)
+    public void LocalBarUpdate(string Name,int h,int m)
     {
-        nameText.text = name;
-        localhpBar.maxValue = maxHp;
-        localhpBar.value = hp;
+        nameText.text = Name;
+        localhpBar.maxValue = m;
+        localhpBar.value = h;
     }
 
     public override void Healing(int heal)
     {
         if (isDeath()) return;
-
         hp += heal;
-        if (heal > maxHp) hp = maxHp;
+        if (hp > maxHp) hp = maxHp;
         if (view == null)
         {
             view = PhotonView.Get(this);
         }
-        
         if (Photon.Pun.PhotonNetwork.IsConnected)
             view.RPC("SyncronizeStat", RpcTarget.All, hp, maxHp);
+    }
+
+    public void SendRequest(string Request)
+    {
+        if (Photon.Pun.PhotonNetwork.IsConnected)
+            view.RPC("RequestRpc", RpcTarget.All, Request);
+    }
+
+    [PunRPC]
+    public void RequestRpc(string request)
+    {
+        if (!photonView.IsMine) return;
+
+        switch(request)
+        {
+            case StaticStrings.resurrection:
+                UIManager.instance.ShowResurrectionRequest();
+                break;
+        }
+    }
+
+    public override void TargetSpellCustom(float lifetime, string sprite)
+    {
+        if(photonView.IsMine)
+        {
+            UIManager.instance.GenerateSlot(lifetime, sprite);
+        }     
     }
 }

@@ -11,7 +11,7 @@ public class Enemy : Entity
     Timer timer = new Timer();
     float delta;
     [SerializeField]
-    Vector3 direction = new Vector3(0, 0, 5);
+    Vector3 direction = new Vector3(0,0,5);
     Vector3 endPos;
     Vector3 startPosition;
     Vector3 destination;
@@ -20,7 +20,8 @@ public class Enemy : Entity
     float wait = 2;
     [SerializeField]
     bool staticEnemy = false;
-    public float respawnTime = 60;
+    [SerializeField]
+    float respawnTime = 60;
     [SerializeField]
     float actionRadius = 5;
     Player playerTarget;
@@ -30,6 +31,7 @@ public class Enemy : Entity
     float attackSpeed = 2;
     [SerializeField]
     float maxDistance = 15;
+    public Stats stats = new Stats();
 
     public override void Init()
     {
@@ -40,23 +42,22 @@ public class Enemy : Entity
         endPos = transform.position + direction;
         destination = endPos;
         OnDeathEvent = () =>
-        {
-            Invoke("Respawn", respawnTime);
-        };
+          {
+              Invoke("Respawn",respawnTime);
+          };
         hp = maxHp;
-        if (localUI != null)
+        if(localUI!=null)
         {
-            nameText.text = EnemyName;
+            nameText.text =EnemyName;
         }
     }
-
     public override void Tick()
     {
         if (isDeath()) return;
         delta = Time.deltaTime;
-        FoundTarget();
+        Foundtarget();
+        //for debug
         if (staticEnemy) return;
-
         switch (estate)
         {
             case EnemyState.idle:
@@ -69,21 +70,20 @@ public class Enemy : Entity
                 Combat();
                 break;
         }
-
     }
 
-    void FoundTarget()
+    void Foundtarget()
     {
         if (estate == EnemyState.Combat) return;
         Collider[] colliders = Physics.OverlapSphere(transform.position, actionRadius);
-        foreach (var c in colliders)
+        foreach(var c in colliders)
         {
-            if (c.tag == StaticStrings.player)
+            if(c.tag==StaticStrings.player)
             {
                 var p = c.GetComponent<Player>();
-                if (p != null)
+                if(p!=null)
                 {
-                    if (!p.isDeath())
+                    if(!p.isDeath())
                     {
                         playerTarget = p;
                         estate = EnemyState.Combat;
@@ -92,7 +92,7 @@ public class Enemy : Entity
             }
         }
     }
-    
+
     void Combat()
     {
         if (playerTarget == null || playerTarget.isDeath() || isDeath())
@@ -103,42 +103,39 @@ public class Enemy : Entity
         }
         var pos = playerTarget.transform.position;
         float distance = Vector3.Distance(transform.position, pos);
-        
-        if (distance > maxDistance)
+        if(distance>maxDistance)
         {
             estate = EnemyState.patrol;
             playerTarget = null;
             return;
         }
-        
-        if (distance > attackRange)
+        if(distance>attackRange)
         {
             MoveAt(pos);
         }
-        else 
+        else
         {
-            if (!timer.timerActive(Time.deltaTime))
+            if(!timer.timerActive(Time.deltaTime))
             {
                 timer.StartTimer(attackSpeed);
-                sync.PlayAnimation("Atk");
+                sync.PlayAnimation("atk");
                 playerTarget.TakeDamage(GetDamage());
             }
         }
     }
-
     void Patrol()
     {
         float dist = Vector3.Distance(transform.position, destination);
-        if (dist <= patrolDist)
+        if(dist<=patrolDist)
         {
-            if (destination == endPos)
+            if(destination==endPos)
             {
                 destination = startPosition;
             }
             else
             {
                 destination = endPos;
-            }
+            }     
             timer.StartTimer(wait);
             estate = EnemyState.idle;
             sync.SetMove(false);
@@ -151,7 +148,7 @@ public class Enemy : Entity
 
     void MoveAt(Vector3 destination)
     {
-        transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * delta);
         Vector3 look = destination - transform.position;
         look.y = 0;
         Quaternion rot = Quaternion.LookRotation(look);
@@ -161,12 +158,13 @@ public class Enemy : Entity
 
     void Idle()
     {
-        if (!timer.timerActive(delta))
+        if(!timer.timerActive(delta))
         {
             estate = EnemyState.patrol;
             sync.SetMove(true);
         }
     }
+
 
     enum EnemyState
     {
@@ -177,12 +175,13 @@ public class Enemy : Entity
 
     void Respawn()
     {
-        hp = stats.HP;
+        hp = maxHp;
         sync.IsDead(false);
         transform.position = startPosition;
+        UpdateUI(hp, maxHp);
     }
 
-    private void OnDrawGizmos() 
+    private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, actionRadius);
     }
@@ -190,12 +189,13 @@ public class Enemy : Entity
     int GetDamage()
     {
         int val = 1;
+
         return val;
     }
 
     public override void UpdateUI(int hp, int maxHp)
     {
-        if (localUI != null)
+        if(localUI!=null)
         {
             localhpBar.maxValue = maxHp;
             localhpBar.value = hp;

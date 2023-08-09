@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class ActionButton : MonoBehaviour
 {
     [SerializeField]
@@ -16,16 +15,15 @@ public class ActionButton : MonoBehaviour
     float countDown = 1;
     public bool Charging()
     {
-        return (countdownImage.fillAmount > 0);
+        return (countdownImage.fillAmount>0);
     }
-
-    public void SetUpButton(ActionController controller, ActionClass action)
+    public void SetUpButton(ActionController controller,ActionClass action)
     {
         this.action = action;
         this.controller = controller;
         buttontext.text = this.action.key.ToString();
         var skill = action.skill;
-        if (skill != null)
+        if(skill!=null)
         {
             icon.sprite = skill.sprite;
             countDown = skill.countDown;
@@ -45,17 +43,17 @@ public class ActionButton : MonoBehaviour
     public void FadeCheck()
     {
         if (action.skill == null) return;
-        
-        if (countdownImage.fillAmount > 0)
+
+        if(countdownImage.fillAmount>0)
         {
             countdownImage.fillAmount -= 1 / countDown * Time.deltaTime;
         }
 
-        if (action.skill.cost <= controller.mana)
+        if(action.skill.cost<=controller.mana)
         {
             onOffimage.enabled = false;
         }
-        else 
+        else
         {
             onOffimage.enabled = true;
         }
@@ -63,16 +61,15 @@ public class ActionButton : MonoBehaviour
 
     public void SetSkill(Skill skill)
     {
-        bool exists = false;
-        foreach (var a in controller.actions)
+        bool exist = false;
+        foreach(var a in controller.actions)
         {
-            if (a.skill == skill)
+            if(a.skill==skill)
             {
-                exists = true;
+                exist = true;
             }
         }
-        if (exists) return;
-
+        if (exist) return;
         action.skill = skill;
         countDown = skill.countDown;
         countdownImage.fillAmount = 0;

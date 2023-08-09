@@ -14,15 +14,15 @@ public class ActionController : MonoBehaviour
     Enemy enemyTarget;
     Timer attackTimer = new Timer();
     [SerializeField]
-    float attackDelay = 2;
+    float attackDealy = 2;
     public List<ActionClass> actions = new List<ActionClass>()
     {
-        new ActionClass (){key = KeyCode.Z},new ActionClass (){key = KeyCode.X},new ActionClass (){key = KeyCode.C},
-        new ActionClass (){key = KeyCode.V},new ActionClass (){key = KeyCode.B},new ActionClass (){key = KeyCode.N},
-        new ActionClass (){key = KeyCode.Alpha1},new ActionClass (){key = KeyCode.Alpha2},new ActionClass (){key = KeyCode.Alpha3},
-        new ActionClass (){key = KeyCode.Alpha4}, new ActionClass (){key = KeyCode.Alpha5},new ActionClass (){key = KeyCode.Alpha6},
+        new ActionClass (){key=KeyCode.Z},new ActionClass (){key=KeyCode.X},new ActionClass (){key=KeyCode.C},
+        new ActionClass (){key=KeyCode.V},new ActionClass (){key=KeyCode.B},new ActionClass (){key=KeyCode.N},
+        new ActionClass (){key=KeyCode.Alpha1},new ActionClass (){key=KeyCode.Alpha2},new ActionClass (){key=KeyCode.Alpha3},
+        new ActionClass (){key=KeyCode.Alpha4},new ActionClass (){key=KeyCode.Alpha5},new ActionClass (){key=KeyCode.Alpha6}
     };
-    public AnimatorSync sync {get; set;}
+    public AnimatorSync sync { get; set; }
     bool inAction = false;
     Player player;
     public int mana = 0;
@@ -31,37 +31,37 @@ public class ActionController : MonoBehaviour
     float interactDistance = 5;
     [SerializeField]
     Texture2D[] cursorList = null;
-    
     enum Cursors
     {
-        normal, atk, pick, bag, teleport
+        normal,atk,pik,bag,teleport
     }
     Entity target;
-    public Skill currentSkill = null;
+    public Skill currentSkill=null;
+
     public void Init(Player player)
     {
         this.player = player;
-        mana = player.stats.Mana;
+        mana = player.maxMana;
         BuildInventory();
         UIManager.instance.SetActions(this);
         UIManager.instance.chat.SetUP(player.data.characterName);
         sync.OnEndAnimationEvent += SpawnSpell;
     }
-
-    public void Tick(Transform follow, float x, float y)
+    public void Tick(Transform follow,float x,float y)
     {
         float delta = Time.deltaTime;
-        if (autoMove == false)
+        if(autoMove==false)
+        {
             transform.rotation = Quaternion.Lerp(transform.rotation, follow.rotation, rotSpeed * delta);
-        
+        }
         RightClick();
-        if (x != 0 || y != 0)
+        if(x!=0|| y!=0)
         {
             autoMove = false;
         }
-        if (autoMove)
+        if(autoMove)
         {
-            if (enemyTarget == null)
+            if(enemyTarget==null)
             {
                 autoMove = false;
                 return;
@@ -69,54 +69,53 @@ public class ActionController : MonoBehaviour
             Vector3 enemyPos = enemyTarget.transform.position;
             float dist = Vector3.Distance(transform.position, enemyPos);
             float velocity = 0;
-            if (dist > attackRange)
+            if(dist>attackRange)
             {
                 velocity = 1;
                 transform.position = Vector3.MoveTowards(transform.position, enemyPos,
                 automoveSpeed * delta);
             }
-            else 
+            else
             {
                 AutoAttack(delta);
             }
             sync.Move(0, velocity);
-            Vector3 look = enemyPos - transform.position;
+            Vector3 look = enemyPos- transform.position;
             look.y = 0;
             Quaternion rot = Quaternion.LookRotation(look);
             transform.rotation = Quaternion.Slerp(transform.rotation, rot, automoveSpeed * delta);
         }
-        foreach (var item in actions)
+        foreach(var item in actions)
         {
-            if (Input.GetKeyDown(item.key))
+            if(Input.GetKeyDown(item.key))
             {
                 PressButton(item);
                 break;
             }
         }
     }
-
+   
     void BuildInventory()
     {
         inventory.Init(player);
-        foreach (var item in inventory.equippedSKills)
+        foreach(var item in inventory.equippedSkill)
         {
-            actions[item.value].skill = item.Key;
+            actions[item.value].skill = item.key;
         }
     }
 
     void AutoAttack(float delta)
     {
-        if (enemyTarget == null && enemyTarget.isDeath())
+        if(enemyTarget==null || enemyTarget.isDeath())
         {
             autoMove = false;
             enemyTarget = null;
-            return;    
+            return;
         }
-
-        if (!attackTimer.timerActive(delta))
+       if(!attackTimer.timerActive(delta))
         {
-            attackTimer.StartTimer(attackDelay);
-            sync.PlayAnimation("Atk");
+            attackTimer.StartTimer(attackDealy);
+            sync.PlayAnimation("atk");
             enemyTarget.TakeDamage(GetDamage());
         }
     }
@@ -124,28 +123,29 @@ public class ActionController : MonoBehaviour
     int GetDamage()
     {
         int val = 1;
+
         return val;
     }
 
     void RightClick()
     {
-        if (Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButtonDown(1))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray= Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if(Physics.Raycast(ray,out hit))
             {
-                if (hit.transform.tag == StaticStrings.enemy)
+                if(hit.transform.tag==StaticStrings.enemy)
                 {
                     autoMove = true;
                     enemyTarget = hit.transform.GetComponent<Enemy>();
                     return;
                 }
                 Interactable inter = hit.transform.GetComponent<Interactable>();
-                if (inter != null)
+                if(inter!=null)
                 {
                     float dist = Vector3.Distance(transform.position, hit.transform.position);
-                    if (dist < interactDistance)
+                    if(dist<=interactDistance)
                     {
                         inter.Interact(player);
                     }
@@ -154,26 +154,24 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    public void PressButton(ActionClass action = null)
+    public void PressButton(ActionClass action=null)
     {
         Skill skill = action.skill;
         if (skill == null) return;
-
         if (action.button.Charging()) return;
-
         if (!CanUseSpell(skill)) return;
 
-        if (skill.cost <= mana)
+        if(skill.cost<=mana)
         {
             mana -= skill.cost;
             currentSkill = skill;
+            //to do... > cost>
             inAction = true;
             sync.PlayAnimation(skill.animName.ToString());
             action.button.SetCountDown();
             UIManager.instance.UpdateMana(mana, player.maxMana);
         }
     }
-
     public void MouseLeft()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -182,11 +180,11 @@ public class ActionController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            switch (hit.transform.tag)
+            switch(hit.transform.tag)
             {
                 case StaticStrings.enemy:
                     Cursor.SetCursor(cursorList[(int)Cursors.atk], Vector2.zero, CursorMode.Auto);
-                    if (leftClick)
+                    if(leftClick)
                     {
                         Entity e = hit.transform.GetComponent<Entity>();
                         SelectTarget(e);
@@ -196,7 +194,7 @@ public class ActionController : MonoBehaviour
                     Cursor.SetCursor(cursorList[(int)Cursors.teleport], Vector2.zero, CursorMode.Auto);
                     break;
                 case StaticStrings.player:
-                    if (hit.transform != this.transform)
+                    if(hit.transform!=this.transform)
                     {
                         if (leftClick)
                         {
@@ -205,26 +203,22 @@ public class ActionController : MonoBehaviour
                         }
                     }
                     break;
-                default:
-                    Cursor.SetCursor(cursorList[(int)Cursors.normal], Vector2.zero, CursorMode.Auto);
-                    break;
             }
         }
-        else 
+        else
         {
-            if (leftClick)
-                SelectTarget(null);
+            if(leftClick)
+            SelectTarget(null);
         }
     }
 
     void SelectTarget(Entity e)
     {
-        if (target != null)
+        if(target!=null)
         {
             target.ShowMarker(false);
         }
-
-        if (e != null)
+        if(e!=null)
         {
             target = e;
             target.ShowMarker(true);
@@ -233,15 +227,33 @@ public class ActionController : MonoBehaviour
 
     bool CanUseSpell(Skill skill)
     {
+        float dist = 0;
         switch (skill.spellTarget)
         {
+            case SpellTarget.self:
+                break;
             case SpellTarget.friend:
                 if (target == null) return false;
-                if (target is Enemy) return false;
+                if(target is Enemy) return false;
+                dist = Vector3.Distance(transform.position, target.transform.position);
+                if(dist>skill.skillRange)
+                {
+                    return false;
+                }
+                if (skill.name == StaticStrings.resurrection && !target.isDeath()) return false;
                 break;
             case SpellTarget.enemy:
                 if (target == null) return false;
                 if (target is Player) return false;
+                dist = Vector3.Distance(transform.position, target.transform.position);
+                if (dist > skill.skillRange)
+                {
+                    return false;
+                }
+                break;
+            case SpellTarget.friendsArea:
+                break;
+            case SpellTarget.enemiesArea:
                 break;
         }
         return true;
@@ -250,8 +262,7 @@ public class ActionController : MonoBehaviour
     public void SpawnSpell()
     {
         if (currentSkill == null) return;
-        if (currentSkill.spellPrefab == null) return ;
-
+        if (currentSkill.spellPrefab == null) return;
         var spell = Instantiate(currentSkill.spellPrefab);
         spell.Initialize(currentSkill, player, target);
     }

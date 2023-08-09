@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHandler, IPointerEnterHandler
+public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler,IEndDragHandler,IPointerEnterHandler
 {
     [SerializeField]
     RectTransform icon = null;
@@ -13,13 +13,12 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
     [SerializeField]
     float lenght = 10;
     PlayerPanel panel;
-
     public void OnDrag(PointerEventData eventData)
     {
         icon.position = Input.mousePosition;
     }
 
-    void IDropHandler.OnDrop(PointerEventData eventData)
+    public void OnDrop(PointerEventData eventData)
     {
         Vector3 origin = icon.position + (icon.forward * lenght);
         Vector3 direction = icon.position + (-icon.forward * lenght);
@@ -27,9 +26,9 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
         foreach (var h in hits)
         {
             BodySlot body = h.transform.GetComponent<BodySlot>();
-            if (body != null)
+            if(body!=null)
             {
-                if (body.SetUp(equip, panel.inventory))
+                if(body.SetUp(equip,panel.inventory))
                 {
                     panel.inventory.RemoveItem(equip);
                     panel.ShowSlots(equip.type);
@@ -39,23 +38,24 @@ public class EquipSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
         icon.localPosition = Vector3.zero;
     }
 
-    public void Init(Equip equip, PlayerPanel panel)
+    public void Init(Equip equip,PlayerPanel panel)
     {
         this.panel = panel;
         this.equip = equip;
         icon.GetComponent<UnityEngine.UI.Image>().color = Helper.GetColor(equip.rarety);
         img = icon.GetChild(0).GetComponent<UnityEngine.UI.Image>();
-        if (img != null)
+        if(img!=null)
         {
             img.sprite = equip.sprite;
         }
+        
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         icon.localPosition = Vector3.zero;
     }
-    
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         panel.ShowDifference(equip);

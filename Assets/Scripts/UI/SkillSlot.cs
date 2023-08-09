@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHandler
+public class SkillSlot : MonoBehaviour,IDragHandler,IDropHandler,IEndDragHandler
 {
     [SerializeField]
     RectTransform icon = null;
     [SerializeField]
-    Skill skill = null;
+    Skill skill=null;
     [SerializeField]
     float lenght = 10;
 
@@ -17,15 +16,15 @@ public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
         icon.position = Input.mousePosition;
     }
 
-    void IDropHandler.OnDrop(PointerEventData eventData)
+    public void OnDrop(PointerEventData eventData)
     {
         Vector3 origin = icon.position + (icon.forward * lenght);
         Vector3 direction = icon.position + (-icon.forward * lenght);
         RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction);
-        foreach (var h in hits)
+        foreach(var h in hits)
         {
             ActionButton b = h.transform.GetComponent<ActionButton>();
-            if (b != null)
+            if(b!=null)
             {
                 b.SetSkill(skill);
                 break;
@@ -35,7 +34,7 @@ public class SkillSlot : MonoBehaviour, IDragHandler, IDropHandler, IEndDragHand
     }
 
     public void Init(Skill skill)
-    {
+    { 
         this.skill = skill;
         icon.GetComponent<UnityEngine.UI.Image>().sprite = skill.sprite;
     }
