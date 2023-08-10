@@ -34,6 +34,10 @@ public abstract class Entity : MonoBehaviourPun
     BuffSlot slotPrefab = null;
     [SerializeField]
     Transform grid = null;
+    public Bonus strenghtBonus = new Bonus();
+    public Bonus intellectBonus = new Bonus();
+    public Bonus agilityBonus = new Bonus();
+    public Bonus armorBonus = new Bonus();
 
     void Start()
     {
@@ -58,6 +62,11 @@ public abstract class Entity : MonoBehaviourPun
     }
     public void TakeDamage(int dmg)
     {
+        dmg -= Helper.GetParameter(this, StaticStrings.armor);
+        if (dmg <= 0)
+        {
+            dmg = 1;
+        }
         if(!PhotonNetwork.IsConnected)
         {
             DebugDamage(dmg);
@@ -179,5 +188,16 @@ public abstract class Entity : MonoBehaviourPun
         {
             gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = amount.ToString();
         }
+    }
+}
+
+public class Bonus
+{
+    public int bonus = 0;
+    public int malus = 0;
+
+    public int GetBonus()
+    {
+        return bonus + malus;
     }
 }

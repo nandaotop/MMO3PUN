@@ -122,7 +122,7 @@ public class ActionController : MonoBehaviour
 
     int GetDamage()
     {
-        int val = 1;
+        int val = Helper.GetParameter(this.player, StaticStrings.strenght);
 
         return val;
     }
