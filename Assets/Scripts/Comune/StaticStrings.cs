@@ -26,6 +26,8 @@ public static class Effects
 {
     public const string healing = "Heal";
     public const string aura = "aura";
+    public const string DamagePopUp = "DamagePopUp";
+    public const string HealPopUp = "HealPopUp"; 
 }
 
 public static class Helper

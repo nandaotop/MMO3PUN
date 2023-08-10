@@ -111,7 +111,7 @@ public class Player : Entity
             val = Mathf.Clamp(val, minZoom, maxZoom);
             follow.cam.fieldOfView = val;
         }
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButton(1))
         {
             float x = Input.GetAxisRaw(StaticStrings.mouseX);
             Vector3 rot = follow.transform.rotation.eulerAngles;
@@ -189,7 +189,10 @@ public class Player : Entity
             view = PhotonView.Get(this);
         }
         if (Photon.Pun.PhotonNetwork.IsConnected)
+        {
+            view.RPC("SpawnPopUpRpc", RpcTarget.All, heal);
             view.RPC("SyncronizeStat", RpcTarget.All, hp, maxHp);
+        }
     }
 
     public void SendRequest(string Request)

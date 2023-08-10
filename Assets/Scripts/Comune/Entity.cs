@@ -92,6 +92,7 @@ public abstract class Entity : MonoBehaviourPun
         if(photonView.IsMine)
         {
             hp -= dmg;
+            view.RPC("SpawnPopUpRpc", RpcTarget.All, -dmg);
             if (hp <= 0)
             {
                 hp = 0;
@@ -155,5 +156,28 @@ public abstract class Entity : MonoBehaviourPun
     public virtual void TargetSpellCustom(float lifetime,string sprite)
     {
 
+    }
+
+    [PunRPC]
+    public void SpawnPopUpRpc(int amount)
+    {
+        GameObject gameObject = null;
+        float x = Random.Range(-1.5f, -1.5f);
+        float z = Random.Range(-1.5f, -1.5f);
+        float offset = 0.5f;
+        Vector3 pos = transform.position + new Vector3(x, offset, z);
+        Quaternion rot = Camera.main.transform.rotation;
+        if (amount < 0)
+        {
+            gameObject = Instantiate(WorldManager.instance.GetPrefab(Effects.DamagePopUp), pos, rot);
+        }
+        else
+        {
+            gameObject = Instantiate(WorldManager.instance.GetPrefab(Effects.HealPopUp), pos, rot);
+        }
+        if (gameObject != null)
+        {
+            gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = amount.ToString();
+        }
     }
 }
