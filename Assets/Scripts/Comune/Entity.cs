@@ -191,6 +191,7 @@ public abstract class Entity : MonoBehaviourPun
     }
 }
 
+[System.Serializable]
 public class Bonus
 {
     public int bonus = 0;
@@ -198,6 +199,6 @@ public class Bonus
 
     public int GetBonus()
     {
-        return bonus + malus;
+        return bonus - malus;
     }
 }

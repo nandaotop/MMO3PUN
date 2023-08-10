@@ -979,6 +979,18 @@ MonoBehaviour:
   circle: {fileID: 2548090310185427919}
   slotPrefab: {fileID: 1475001164340910356, guid: 748b37fec0505d2478ac6eb4b0e7c87d, type: 3}
   grid: {fileID: 4234981206774225518}
+  strenghtBonus:
+    bonus: 0
+    malus: 0
+  intellectBonus:
+    bonus: 0
+    malus: 0
+  agilityBonus:
+    bonus: 0
+    malus: 0
+  armorBonus:
+    bonus: 0
+    malus: 0
   rotSpeed: 2
   scrollAmount: 3
   minZoom: 10
