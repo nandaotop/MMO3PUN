@@ -6,7 +6,6 @@ using System.Linq;
 [System.Serializable]
 public class Inventory 
 {
-
     public List<Pair<Skill, int>> equippedSkill = new List<Pair<Skill, int>>();
     public List<Skill> skills = new List<Skill>();
     public List<Item> items = new List<Item>();
@@ -37,19 +36,19 @@ public class Inventory
         {
             switch (s)
             {
-                case "stamina":
+                case StaticStrings.stamina:
                     val += e.stamina;
                     break;
-                case "strenght":
+                case StaticStrings.strenght:
                     val += e.strenght;
                     break;
-                case "intellect":
+                case StaticStrings.intellect:
                     val += e.intellect;
                     break;
-                case "agility":
+                case StaticStrings.agility:
                     val += e.agility;
                     break;
-                case "armor":
+                case StaticStrings.armor:
                     val += e.armor;
                     break;
             }
@@ -132,11 +131,13 @@ public class Inventory
                 {
                     lastEquip = leftWeapon;
                     leftWeapon = equip;
+                    player.ChangeWeapon(leftWeapon, true);
                 }
                 else
                 {
                     lastEquip = rightWeapon;
                     rightWeapon = equip;
+                    player.ChangeWeapon(rightWeapon, false);
                 }
                 break;
         }
@@ -148,6 +149,7 @@ public class Inventory
         player.OnChangeItem();
     }
 
+    
     public void RemoveItem(Equip e)
     {
         foreach(var i in items)

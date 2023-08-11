@@ -34,14 +34,16 @@ public abstract class Entity : MonoBehaviourPun
     BuffSlot slotPrefab = null;
     [SerializeField]
     Transform grid = null;
-    public Bonus strenghtBonus = new Bonus();
+    public Bonus strengtBonus = new Bonus();
     public Bonus intellectBonus = new Bonus();
     public Bonus agilityBonus = new Bonus();
     public Bonus armorBonus = new Bonus();
 
+    public Transform spawnPoint = null;
+
     void Start()
     {
-        Init();
+        Init();        
     }
     // Update is called once per frame
     void Update()
@@ -62,8 +64,7 @@ public abstract class Entity : MonoBehaviourPun
     }
     public void TakeDamage(int dmg)
     {
-        dmg -= Helper.GetParameter(this, StaticStrings.armor);
-        if (dmg <= 0)
+        if(dmg<=0)
         {
             dmg = 1;
         }
@@ -100,8 +101,11 @@ public abstract class Entity : MonoBehaviourPun
     {
         if(photonView.IsMine)
         {
-            hp -= dmg;
-            view.RPC("SpawnPopUpRpc", RpcTarget.All, -dmg);
+            var damage= dmg -= Helper.GetParameter(this, StaticStrings.armor);
+            if (damage <= 1) damage = 1;
+            hp -= damage;
+
+            view.RPC("SpawnPopUpRpc", RpcTarget.All, -damage);
             if (hp <= 0)
             {
                 hp = 0;
@@ -143,7 +147,7 @@ public abstract class Entity : MonoBehaviourPun
         }
     }
     
-    public void BecameSpellTarget(Skill skill)
+    public virtual void BecameSpellTarget(Skill skill,Entity owner=null)
     {
         view.RPC("SpellTargetRpc", RpcTarget.All, skill.effectName,skill.activationTime,
             WorldManager.instance.VectorConverter(skill.effectOffset),skill.sprite.name);
@@ -171,25 +175,27 @@ public abstract class Entity : MonoBehaviourPun
     public void SpawnPopUpRpc(int amount)
     {
         GameObject gameObject = null;
-        float x = Random.Range(-1.5f, -1.5f);
-        float z = Random.Range(-1.5f, -1.5f);
+        float x = Random.Range(-1.5f, 1.5f);
+        float z = Random.Range(-1.5f, 1.5f);
         float offset = 0.5f;
-        Vector3 pos = transform.position + new Vector3(x, offset, z);
+        Vector3 pos=transform.position + new Vector3(x,offset,z);
         Quaternion rot = Camera.main.transform.rotation;
-        if (amount < 0)
+        if(amount<0)
         {
-            gameObject = Instantiate(WorldManager.instance.GetPrefab(Effects.DamagePopUp), pos, rot);
+            gameObject = Instantiate(WorldManager.instance.GetPrefab(Effects.DamagePopUp),pos,rot);
         }
         else
         {
-            gameObject = Instantiate(WorldManager.instance.GetPrefab(Effects.HealPopUp), pos, rot);
+            gameObject = Instantiate(WorldManager.instance.GetPrefab(Effects.HealPopUp),pos,rot);
         }
-        if (gameObject != null)
+        if(gameObject!=null)
         {
             gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = amount.ToString();
         }
     }
+
 }
+
 
 [System.Serializable]
 public class Bonus

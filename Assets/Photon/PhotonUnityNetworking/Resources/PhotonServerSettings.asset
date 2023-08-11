@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 0c53cf9c-8ddf-402e-80b7-84f73a652a14
+    AppIdRealtime: 17b3bec3-5bc1-42b0-9396-d473fdc6df2e
     AppIdFusion: 
-    AppIdChat: c5ac40f5-8f41-40e9-9b63-f5a17290db54
+    AppIdChat: e00806ae-db02-43b3-bdd0-5afbfa68eaf5
     AppIdVoice: 
     AppVersion: 1
     UseNameServer: 1
-    FixedRegion: sa
+    FixedRegion: jp
     Server: 
     Port: 0
     ProxyServer: 
@@ -50,6 +50,16 @@ MonoBehaviour:
   - RequestRpc
   - SpellTargetRpc
   - SpawnPopUpRpc
+  - Combat
+  - Allert
+  - AddExperienceRpc
+  - GenerateRpc
+  - ChangeWeaponRpc
+  - SpawnRpc
+  - SpawnBulletRpc
+  - SpawnBulletRPC
+  - FollowRPC
+  - FollowRpc
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

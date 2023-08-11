@@ -46,5 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allTargets: []
   counter: 0
-  spellPower: 1
+  spellPower: -100
   spellType: 1

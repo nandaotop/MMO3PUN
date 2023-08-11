@@ -17,3 +17,11 @@ MonoBehaviour:
   cost: 15
   countDown: 3
   activationTime: 5
+  skillRange: 15
+  spellTarget: 2
+  spellPower: 1
+  radius: 5
+  spellPrefab: {fileID: 0}
+  effectOffset: {x: 0, y: -1, z: 0}
+  effectName: BlackAura
+  needRPC: 1

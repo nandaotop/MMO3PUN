@@ -19,7 +19,7 @@ MonoBehaviour:
   activationTime: 10
   skillRange: 15
   spellTarget: 2
-  spellPower: 1
+  spellPower: -1000
   radius: 5
   spellPrefab: {fileID: -4346261840714567653, guid: f9304c2f583546044afdc47762c471a5, type: 3}
   effectOffset: {x: 0, y: -1, z: 0}

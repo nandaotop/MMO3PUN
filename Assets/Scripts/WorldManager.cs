@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using System.Linq;
 public class WorldManager : MonoBehaviourPun
 {
     public Transform respawnPoint = null;
@@ -10,11 +10,10 @@ public class WorldManager : MonoBehaviourPun
     [SerializeField]
     Vector3 deathZone = new Vector3(0, -10, 0);
     public static WorldManager instance;
-    public Object[] levelList = null;
     public GameObject[] prefabList = null;
     public PhotonView view;
     List<Sprite> allGameImages = new List<Sprite>();
-
+    public List<Item> allItems = new List<Item>();
     public Sprite GetSprite(string s)
     {
         foreach(var item in allGameImages)
@@ -29,7 +28,7 @@ public class WorldManager : MonoBehaviourPun
     private void Awake()
     {
         instance = this;
-        levelList = Resources.LoadAll<Object>("Scenes");
+        allItems = Resources.LoadAll<Item>("").ToList();
         allGameImages.AddRange(Resources.LoadAll<Sprite>("Images"));
     }
     private void Start()
@@ -101,4 +100,14 @@ public class WorldManager : MonoBehaviourPun
     {
         return new Vector3(arr[0], arr[1], arr[2]);
     }
+
+    public Equip GetEquip(string Name)
+    {
+        foreach(var i in allItems)
+        {
+            if (i.name == Name) return i as Equip;
+        }
+        return null;
+    }
+
 }

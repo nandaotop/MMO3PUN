@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ActionController : MonoBehaviour
 {
     [SerializeField]
@@ -37,7 +36,7 @@ public class ActionController : MonoBehaviour
     }
     Entity target;
     public Skill currentSkill=null;
-
+    public string MeleeAttack="";
     public void Init(Player player)
     {
         this.player = player;
@@ -59,6 +58,9 @@ public class ActionController : MonoBehaviour
         {
             autoMove = false;
         }
+
+        inAction = sync.anim.GetBool(StaticStrings.inAction);
+        if (inAction) return;
         if(autoMove)
         {
             if(enemyTarget==null)
@@ -106,6 +108,8 @@ public class ActionController : MonoBehaviour
 
     void AutoAttack(float delta)
     {
+        inAction = sync.anim.GetBool(StaticStrings.inAction);
+        if (inAction) return;
         if(enemyTarget==null || enemyTarget.isDeath())
         {
             autoMove = false;
@@ -115,15 +119,15 @@ public class ActionController : MonoBehaviour
        if(!attackTimer.timerActive(delta))
         {
             attackTimer.StartTimer(attackDealy);
-            sync.PlayAnimation("atk");
+            sync.PlayAnimation(MeleeAttack);
             enemyTarget.TakeDamage(GetDamage());
+            enemyTarget.AddToBattleList(player);
         }
     }
 
     int GetDamage()
     {
         int val = Helper.GetParameter(this.player, StaticStrings.strenght);
-
         return val;
     }
 
@@ -167,6 +171,7 @@ public class ActionController : MonoBehaviour
             currentSkill = skill;
             //to do... > cost>
             inAction = true;
+            sync.anim.SetBool(StaticStrings.inAction, inAction);
             sync.PlayAnimation(skill.animName.ToString());
             action.button.SetCountDown();
             UIManager.instance.UpdateMana(mana, player.maxMana);
@@ -227,6 +232,7 @@ public class ActionController : MonoBehaviour
 
     bool CanUseSpell(Skill skill)
     {
+        if (inAction) return false;
         float dist = 0;
         switch (skill.spellTarget)
         {
@@ -265,6 +271,32 @@ public class ActionController : MonoBehaviour
         if (currentSkill.spellPrefab == null) return;
         var spell = Instantiate(currentSkill.spellPrefab);
         spell.Initialize(currentSkill, player, target);
+        
+    }
+    
+    public void CalculateAttack()
+    {
+        Equip left = inventory.leftWeapon; 
+        Equip right= inventory.rightWeapon;
+
+        if (left!=null && right!=null)
+        {
+            MeleeAttack = AnimName.AtkDouble.ToString();
+            return;
+        }
+        if(left!=null)
+        {
+            MeleeAttack = AnimName.AtkLeft.ToString();
+            return;
+        }
+        if(right!=null)
+        {
+            MeleeAttack = AnimName.AtkRight.ToString();
+        }
+        else
+        {
+            MeleeAttack = AnimName.Unarmed.ToString();
+        }
     }
 }
 

@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class Player : Entity
 {
+    public SaveData data = new SaveData();
     CameraFollow follow;
     [SerializeField]
     float rotSpeed = 2;
@@ -15,12 +16,12 @@ public class Player : Entity
     ActionController controller;
     const float second = 1;
     float manaCounter=1;
-    public SaveData data = new SaveData();
     public bool CanMove = true;
     [SerializeField]
     GameObject uiMan = null;
     [SerializeField]
     CharacterClass debugClass = CharacterClass.warrior;
+    public bool inAction = false;
     public Inventory GetInventory()
     {
         return controller.inventory;
@@ -28,6 +29,13 @@ public class Player : Entity
     public Stats stats()
     {
         return data.stat;
+    }
+    [SerializeField]
+    Transform LeftHolder = null, rightHolder = null;
+    public GameObject GetModel(Transform t)
+    {
+        if (t.childCount < 1) return null;
+        return t.GetChild(0).gameObject;
     }
 
     public override void Init()
@@ -91,6 +99,7 @@ public class Player : Entity
         }
         UseCamera();
         if (isDeath()) return;
+        if (inAction) return;
         float x = Input.GetAxisRaw(StaticStrings.horizontal);
         float y = Input.GetAxisRaw(StaticStrings.vertical);
         Vector3 move = (transform.right * x) + (transform.forward * y);
@@ -111,7 +120,7 @@ public class Player : Entity
             val = Mathf.Clamp(val, minZoom, maxZoom);
             follow.cam.fieldOfView = val;
         }
-        if(Input.GetMouseButton(1))
+        if(Input.GetMouseButton(0))
         {
             float x = Input.GetAxisRaw(StaticStrings.mouseX);
             Vector3 rot = follow.transform.rotation.eulerAngles;
@@ -220,5 +229,48 @@ public class Player : Entity
         {
             UIManager.instance.GenerateSlot(lifetime, sprite);
         }     
+    }
+
+    public void AddExperience(int experience)
+    {
+        view.RPC("AddExperienceRpc", RpcTarget.All, experience);
+    }
+
+    [PunRPC]
+    public void AddExperienceRpc(int experience)
+    {
+        if (!photonView.IsMine) return;
+
+        data.experience += experience;
+        Helper.GoNextLevel(ref data);
+        UIManager.instance.SetUpPlayer(this);
+        Vector3 pos = transform.position + new Vector3(0, -1, 0);
+        Vector3 rot = new Vector3(-90, 0, 0);
+        WorldManager.instance.SpawnEffect(Effects.LevelUp, pos, rot);
+        OnChangeItem();
+        UpdateUI(hp, maxHp);
+    }
+
+    public void ChangeWeapon(Equip weapon,bool isLeft)
+    {
+        if (weapon == null) return;
+        if (weapon.model == null) return;
+        view.RPC("ChangeWeaponRpc", RpcTarget.AllBuffered,weapon.name, isLeft);
+        controller.CalculateAttack();
+    }
+    
+    [PunRPC]
+    public void ChangeWeaponRpc(string ItemName,bool isLeft)
+    {
+        var weapon = WorldManager.instance.GetEquip(ItemName);
+        Transform holder = (isLeft == true) ? LeftHolder : rightHolder;
+        GameObject oldWeapon = GetModel(holder);
+        if (oldWeapon != null)
+        {
+            Destroy(oldWeapon);
+        }
+        GameObject newWeapon = Instantiate(weapon.model, holder);
+        newWeapon.transform.localPosition = (isLeft == true) ? weapon.leftPos : weapon.rightPos;
+        newWeapon.transform.localRotation = Quaternion.Euler((isLeft == true) ? weapon.leftRot : weapon.rightRot);
     }
 }
