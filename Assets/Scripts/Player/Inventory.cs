@@ -13,6 +13,8 @@ public class Inventory
     public Equip leftWeapon, rightWeapon;
     public Equip lastEquip;
     public int coin = 0;
+    List<Quest> allQuest = new List<Quest>();
+    List<string> killRecord = new List<string>();
     public List<Equip> AllEquip()
     {
         List<Equip> equipList = new List<Equip>();
@@ -60,6 +62,7 @@ public class Inventory
     {
         var allItems = Resources.LoadAll<Item>("");
         var allSkills = Resources.LoadAll<Skill>("");
+        allQuest = Resources.LoadAll<Quest>("Quest").ToList();
         this.player = p;
         SaveData data = player.data;
         foreach (var d in data.equip)
@@ -185,6 +188,64 @@ public class Inventory
                 equippedSkill.Add(pair);
             }
         }
+    }
+
+    public void AddToInventory(Item item)
+    {
+        items.Add(item);
+        QuestCheck(item.name);
+    }
+
+    void QuestCheck(string ItemName,bool isEnemy=false)
+    {
+        QuestData data = null;
+        foreach(var q in player.data.activeQuestList)
+        {
+            foreach(var r in q.requiredObjetList)
+            {
+                if (r.objectName == ItemName)
+                {
+                    data = q;
+                    break;
+                }
+            }   
+        }
+        if(data==null)
+        {
+            if(!isEnemy)
+                UIManager.instance.ShowDropBanner("Recieve " + ItemName, 1.5f);
+        }
+        else
+        {
+            Quest q = Helper.GetQuest(allQuest, data);
+            if(q!=null)
+            {
+                bool questCompleted = true;
+                foreach (var r in data.requiredObjetList)
+                {
+                    if (r.objectName == ItemName)
+                    {
+                        r.currentAmount++;
+                        UIManager.instance.ShowDropBanner(ItemName + " " + r.currentAmount + " / " + r.requiredAmount, 2.5f);
+                    }
+                    if (r.currentAmount < r.requiredAmount)
+                    {
+                        questCompleted = false;
+                    }
+                }
+                if(questCompleted)
+                {
+                    data.questCompleted = true;
+                }
+               
+                
+            }
+        }
+    }
+    public void KillRecord(string killed)
+    {
+        killRecord.Add(killed);
+        QuestCheck(killed,true);
     }
 }
 

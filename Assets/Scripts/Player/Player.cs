@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using System.Linq;
 public class Player : Entity
 {
     public SaveData data = new SaveData();
@@ -13,7 +13,8 @@ public class Player : Entity
     float scrollAmount = 3;
     [SerializeField]
     float minZoom = 10, maxZoom = 120;
-    ActionController controller;
+    [HideInInspector]
+    public ActionController controller;
     const float second = 1;
     float manaCounter=1;
     public bool CanMove = true;
@@ -37,7 +38,8 @@ public class Player : Entity
         if (t.childCount < 1) return null;
         return t.GetChild(0).gameObject;
     }
-
+    public List<Pair<Talent,int>> talentList = new List<Pair<Talent,int>>();
+    Talent[] allTalents;
     public override void Init()
     {
         base.Init();
@@ -57,6 +59,7 @@ public class Player : Entity
         controller = GetComponent<ActionController>();
         controller.sync = sync;
         controller.Init(this);
+        LoadTalents();
         OnChangeItem();
         hp = maxHp;
         var f = Resources.Load<CameraFollow>(StaticStrings.follow);
@@ -129,7 +132,44 @@ public class Player : Entity
         }
     }
 
-    
+    void LoadTalents()
+    {
+        allTalents = Resources.LoadAll<Talent>("Talents").Where(x => x.charClass == data.stat.charClass).ToArray();
+        if (data.talentList.Count < 1)
+        {
+            foreach (var a in allTalents)
+            {
+                data.talentList.Add(new Pair<string, int>() { key = a.name, value = 0 });
+            }
+            
+        }
+        foreach (var a in allTalents)
+        {
+            for(int i=0;i<data.talentList.Count;i++)
+            {
+                if(a.name==data.talentList[i].key)
+                {
+                    talentList.Add(new Pair<Talent, int>() { key = a, value = data.talentList[i].value });
+                }
+            }
+        }
+
+    }
+
+    public void UpdateTalentList()
+    {
+        talentList.Clear();
+        foreach (var a in allTalents)
+        {
+            for (int i = 0; i < data.talentList.Count; i++)
+            {
+                if (a.name == data.talentList[i].key)
+                {
+                    talentList.Add(new Pair<Talent, int>() { key = a, value = data.talentList[i].value });
+                }
+            }
+        }
+    }
     public void Respawn(bool inPlace=false)
     {
         if(inPlace==false)
@@ -150,6 +190,8 @@ public class Player : Entity
     {
         int stamina = stats().Stamina + controller.inventory.GetParameter(StaticStrings.stamina);
         int intellect=stats().Intellect+ controller.inventory.GetParameter(StaticStrings.intellect);
+        stamina += Helper.TalentAmount(talentList,BonusTarget.stamina);
+        intellect += Helper.TalentAmount(talentList, BonusTarget.intellect);
         CalculateStats(stamina,intellect);
         if(hp>maxHp)
         {
@@ -159,6 +201,8 @@ public class Player : Entity
         {
             controller.mana = maxMana;
         }
+        UIManager.instance.UpdateHP(hp, maxHp);
+        UIManager.instance.UpdateMana(controller.mana, maxMana);
     }
     public void LockPlayer()
     {
@@ -273,4 +317,5 @@ public class Player : Entity
         newWeapon.transform.localPosition = (isLeft == true) ? weapon.leftPos : weapon.rightPos;
         newWeapon.transform.localRotation = Quaternion.Euler((isLeft == true) ? weapon.leftRot : weapon.rightRot);
     }
+
 }

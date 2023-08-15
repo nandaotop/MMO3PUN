@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,6 @@ public class UIManager : MonoBehaviour
 {
     public GameObject deathPanel = null;
     public Player player { get; set; }
-
     public static UIManager instance;
     public bool uiIsOpen = false;
     public Chat chat;
@@ -38,6 +38,16 @@ public class UIManager : MonoBehaviour
     BuffSlot buffSlot = null;
     [SerializeField]
     Transform grid = null;
+    [SerializeField]
+    TalentBook talentBook = null;
+    [SerializeField]
+    Text manaText = null, hpText = null;
+    [SerializeField]
+    DisableOverTime drop_banner = null;
+    [SerializeField]
+    DropPanel dropPrefab = null;
+    DropPanel dropPanel { get; set;}
+
 
     private void Awake()
     {
@@ -135,6 +145,12 @@ public class UIManager : MonoBehaviour
         banner.gameObject.SetActive(true);
         banner.Init(message, lifetime);
     }
+
+    public void ShowDropBanner(string message,float lifetime)
+    {
+        drop_banner.gameObject.SetActive(true);
+        drop_banner.Init(message, lifetime);
+    }
     void RecordStrings<T>(ref List<string>list,List<T>template)where T:ScriptableObject
     {
         list.Clear();
@@ -160,7 +176,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    
+    public void OpeDropList(Enemy enemy, Player player)
+    {
+        if(dropPanel==null)
+        {
+            dropPanel = Instantiate(dropPrefab);
+            dropPanel.Init(enemy, player);
+        }
+    }
+
     public void SetUpPlayer(Player player)
     {
         this.player = player;
@@ -174,11 +198,13 @@ public class UIManager : MonoBehaviour
     {
         hpBar.maxValue = max;
         hpBar.value = current;
+        hpText.text = current + " / " + max;
     }
     public void UpdateMana(int current, int max)
     {
         manaBar.maxValue = max;
         manaBar.value = current;
+        manaText.text = current + " / " + max;
     }
 
     public void ShowResurrectionRequest()
@@ -200,4 +226,9 @@ public class UIManager : MonoBehaviour
         slot.Init(WorldManager.instance.GetSprite(spriteName),lifeTime);
     }
 
+    public void GenerateTalentBook()
+    {
+        var b = Instantiate(talentBook);
+        b.Intit(player);
+    }
 }

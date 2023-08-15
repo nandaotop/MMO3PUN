@@ -30,9 +30,12 @@ public class ActionController : MonoBehaviour
     float interactDistance = 5;
     [SerializeField]
     Texture2D[] cursorList = null;
+    [SerializeField]
+    float dropDistance = 5;
+
     enum Cursors
     {
-        normal,atk,pik,bag,teleport
+        normal,atk,pik,bag,teleport,flower
     }
     Entity target;
     public Skill currentSkill=null;
@@ -141,8 +144,19 @@ public class ActionController : MonoBehaviour
             {
                 if(hit.transform.tag==StaticStrings.enemy)
                 {
-                    autoMove = true;
-                    enemyTarget = hit.transform.GetComponent<Enemy>();
+                    Enemy enemy= hit.transform.GetComponent<Enemy>();
+                    if(enemy.isDeath())
+                    {
+                        if(enemy.dropList.Count>0 && enemy.CanTakeDrop==true)
+                        {
+                            UIManager.instance.OpeDropList(enemy,player);
+                        }
+                    }
+                    else
+                    {
+                        autoMove = true;
+                        enemyTarget = enemy;
+                    }
                     return;
                 }
                 Interactable inter = hit.transform.GetComponent<Interactable>();
@@ -207,6 +221,12 @@ public class ActionController : MonoBehaviour
                             SelectTarget(e);
                         }
                     }
+                    break;
+                case StaticStrings.rock:
+                    Cursor.SetCursor(cursorList[(int)Cursors.pik], Vector2.zero, CursorMode.Auto);
+                    break;
+                case StaticStrings.flower:
+                    Cursor.SetCursor(cursorList[(int)Cursors.flower], Vector2.zero, CursorMode.Auto);
                     break;
             }
         }
@@ -297,6 +317,13 @@ public class ActionController : MonoBehaviour
         {
             MeleeAttack = AnimName.Unarmed.ToString();
         }
+    }
+
+    public void Gather(string animName)
+    {
+        inAction = true;
+        sync.anim.SetBool(StaticStrings.inAction, inAction);
+        sync.PlayAnimation(animName);
     }
 }
 
